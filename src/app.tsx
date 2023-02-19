@@ -3,13 +3,25 @@ import RightContent from '@/components/RightContent';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
-import type { RunTimeLayoutConfig } from 'umi';
+import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 
+export const request: RequestConfig = {
+  timeout: 10000, //超时的时间
+};
+
+/**
+ * 从命令行提取参数
+ */
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+
+/**
+ * 无需跳转登录页面的页面
+ */
+const NO_NEED_LOGIN_PAGES = ['/user/register', loginPath];
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -34,17 +46,19 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果不是登录页面，执行
-  if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+  // 如果不是白名单页面，执行
+  if (NO_NEED_LOGIN_PAGES.includes(location.pathname)) {
     return {
+      // @ts-ignore
       fetchUserInfo,
-      currentUser,
       settings: defaultSettings,
     };
   }
+  const currentUser = await fetchUserInfo();
   return {
+    // @ts-ignore
     fetchUserInfo,
+    currentUser,
     settings: defaultSettings,
   };
 }
@@ -60,8 +74,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (NO_NEED_LOGIN_PAGES.includes(location.pathname)) {
+        return;
+      }
+      if (!initialState?.currentUser) {
+        // 如果没有登录，重定向到 login
         history.push(loginPath);
       }
     },
@@ -92,7 +109,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
               enableDarkTheme
               settings={initialState?.settings}
               onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
+                setInitialState((preInitialState: any) => ({
                   ...preInitialState,
                   settings,
                 }));

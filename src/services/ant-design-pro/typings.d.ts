@@ -28,6 +28,21 @@ declare namespace API {
     type?: string;
     currentAuthority?: string;
   };
+  type BaseResponse<T> = {
+    code: number;
+    data: T;
+    message: string;
+    description: string;
+  };
+
+  type RegisterResult = number;
+
+  type RegisterParams = {
+    userAccount?: string;
+    userPassword?: string;
+    checkPassword?: String;
+    type?: string;
+  };
 
   type PageParams = {
     current?: number;
@@ -62,8 +77,8 @@ declare namespace API {
   };
 
   type LoginParams = {
-    username?: string;
-    password?: string;
+    userAccount?: string;
+    userPassword?: string;
     autoLogin?: boolean;
     type?: string;
   };
