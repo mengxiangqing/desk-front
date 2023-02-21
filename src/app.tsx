@@ -45,8 +45,8 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  // 如果不是白名单页面，执行
   if (NO_NEED_LOGIN_PAGES.includes(location.pathname)) {
+    // 如果是白名单页面，执行
     return {
       // @ts-ignore
       fetchUserInfo,
@@ -55,7 +55,7 @@ export async function getInitialState(): Promise<{
   }
   const currentUser = await fetchUserInfo();
 
-  console.log(currentUser);
+  // console.log(currentUser);
   return {
     // @ts-ignore
     fetchUserInfo,

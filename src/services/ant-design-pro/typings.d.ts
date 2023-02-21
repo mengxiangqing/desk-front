@@ -5,7 +5,7 @@ declare namespace API {
   type CurrentUser = {
     id: number;
     username: string;
-    user_account: string;
+    userAccount: string;
     title: string;
     grade: number;
     gender: number;
@@ -13,7 +13,7 @@ declare namespace API {
     user_role: number;
     birth: string;
     college: string;
-    stu_class;
+    stu_class: string;
     create_time: Date;
     email?: string;
     phone?: string;
@@ -32,12 +32,19 @@ declare namespace API {
   };
 
   type RegisterResult = number;
+  type UpdateUserResult = number;
 
   type RegisterParams = {
     userAccount?: string;
     userPassword?: string;
     checkPassword?: String;
     type?: string;
+  };
+
+  type UpdateUserParams = {
+    remark?: string;
+    email?: string;
+    phone?: string;
   };
 
   type PageParams = {

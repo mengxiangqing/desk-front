@@ -40,18 +40,18 @@ const GlobalHeaderRight: React.FC = () => {
             value: 'Pro Layout',
           },
         ]}
-        // onSearch={value => {
-        //   console.log('input', value);
-        // }}
-      />
-      <span
-        className={styles.action}
-        onClick={() => {
-          window.open('https://pro.ant.design/docs/getting-started');
+        onSearch={(value) => {
+          console.log('input', value);
         }}
-      >
-        <QuestionCircleOutlined />
-      </span>
+      />
+      {/*<span*/}
+      {/*  className={styles.action}*/}
+      {/*  onClick={() => {*/}
+      {/*    window.open('https://pro.ant.design/docs/getting-started');*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <QuestionCircleOutlined />*/}
+      {/*</span>*/}
       <Avatar />
     </Space>
   );

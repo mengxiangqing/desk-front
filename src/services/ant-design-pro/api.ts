@@ -21,6 +21,16 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
     data: body,
     ...(options || {}),
   });
+} /** 注册接口 POST /api/user/register */
+export async function updateUser(body: API.UpdateUserParams, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.UpdateUserResult>>('/api/user/update', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
 }
 
 /** 退出登录接口 POST /api/user/logout */

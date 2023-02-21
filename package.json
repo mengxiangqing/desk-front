@@ -50,6 +50,7 @@
     "@ant-design/charts": "^1.4.2",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "1.1.1",
+    "@ant-design/pro-form": "^1.74.7",
     "@antv/l7": "^2.13.4",
     "@antv/l7-maps": "^2.13.4",
     "@antv/l7-react": "^2.4.3",
@@ -66,6 +67,7 @@
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.2.0",
+    "react-router": "^4.3.1",
     "umi": "^3.5.0"
   },
   "devDependencies": {
