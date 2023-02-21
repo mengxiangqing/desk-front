@@ -9,12 +9,13 @@ declare namespace API {
     title: string;
     grade: number;
     gender: number;
-    user_status: number;
-    user_role: number;
+    userStatus: number;
+    userRole: number;
     birth: string;
     college: string;
-    stu_class: string;
-    create_time: Date;
+    stuClass: string;
+    createTime: Date;
+    updateTime: Date;
     email?: string;
     phone?: string;
   };
@@ -46,38 +47,12 @@ declare namespace API {
     email?: string;
     phone?: string;
   };
+  type DeleteUserParam = number;
 
-  type PageParams = {
-    current?: number;
-    pageSize?: number;
-  };
-
-  type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
-    name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
-    status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
-  };
-
-  type RuleList = {
-    data?: RuleListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type FakeCaptcha = {
-    code?: number;
-    status?: string;
-  };
+  type SearchUser = {
+    username:string;
+    userAccount:number;
+  }
 
   type LoginParams = {
     userAccount?: string;
@@ -95,25 +70,5 @@ declare namespace API {
     success?: boolean;
   };
 
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
 
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
-
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
-  };
 }

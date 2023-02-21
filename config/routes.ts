@@ -33,9 +33,10 @@ export default [
     access: 'canAdmin',
     routes: [
       {
-        path: '/admin/sub-page',
+        path: '/admin/user-manage',
+        name: '用户管理页',
         icon: 'smile',
-        component: './Welcome',
+        component: './Admin/UserManage',
       },
       {
         component: './404',
@@ -45,6 +46,12 @@ export default [
   {
     path: '/',
     redirect: '/welcome',
+  },
+  {
+    name: '查询课程',
+    icon: 'smile',
+    path: '/course/list',
+    component: './course/CourseList',
   },
   {
     component: './404',

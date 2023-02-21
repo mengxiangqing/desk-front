@@ -6,7 +6,7 @@ import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser } from './services/user/api';
 
 export const request: RequestConfig = {
   timeout: 10000, //超时的时间

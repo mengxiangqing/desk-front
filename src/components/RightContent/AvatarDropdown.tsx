@@ -1,4 +1,4 @@
-import { outLogin } from '@/services/ant-design-pro/api';
+import { outLogin } from '@/services/user/api';
 import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
 import type { ItemType } from 'antd/lib/menu/hooks/useItems';

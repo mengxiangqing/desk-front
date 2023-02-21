@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
+import { login } from '@/services/user/api';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { Alert, Divider, message } from 'antd';
@@ -64,7 +64,7 @@ const Login: React.FC = () => {
           title="智慧教室助手"
           subTitle={'与智慧教室最为搭配的辅助平台'}
           initialValues={{
-            autoLogin: true,
+            autoLogin: false,
           }}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
@@ -85,7 +85,7 @@ const Login: React.FC = () => {
                 rules={[
                   {
                     required: true,
-                    message: '用户名是必填项！',
+                    message: '学工号是必填项！',
                   },
                 ]}
               />
