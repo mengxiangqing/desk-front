@@ -64,15 +64,6 @@ const columns: ProColumns<API.CurrentUser>[] = [
     editable:false,
     copyable: true,
   },
-  // {
-  //   title: '头像',
-  //   dataIndex: 'avatar_url',
-  //   render: (_, record) => (
-  //     <div>
-  //       <Image src={'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'} width={50}/>
-  //     </div>
-  //   ),
-  // },
   {
     title: '性别',
     dataIndex: 'gender',
@@ -137,11 +128,13 @@ const columns: ProColumns<API.CurrentUser>[] = [
 
     valueType: 'dateTime',
   },
-  // {
-  //   title: '更新时间',
-  //   dataIndex: 'updateTime',
-  //   valueType: 'dateTime',
-  // },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime',
+    hideInSearch: true,
+    editable:false,
+    valueType: 'dateTime',
+  },
   {
     title: '状态',
     dataIndex: 'userStatus',
@@ -214,7 +207,7 @@ export default () => {
         onChange: setEditableRowKeys,
       }}
       columnsState={{
-        persistenceKey: 'pro-table-singe-demos',
+        persistenceKey: 'user-manage',
         persistenceType: 'localStorage',
       }}
       rowKey="id"

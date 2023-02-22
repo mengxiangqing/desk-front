@@ -10,7 +10,7 @@ export async function currentUser(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
-/** 获取当前的用户 GET /api/currentUser */
+/** 搜索用户接口 POST /api/user/search */
 export async function searchUsers(body:API.SearchUser,options?: { [key: string]: any }) {
   console.log(options)
   return request<API.BaseResponse<API.CurrentUser[]>>('/api/user/search', {
@@ -76,3 +76,30 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     ...(options || {}),
   });
 }
+
+
+/** 搜索课程接口 POST /api/course/search */
+export async function searchCourses(body:API.SearchCourseParam,options?: { [key: string]: any }) {
+  console.log(options)
+  return request<API.BaseResponse<API.Course[]>>('/api/course/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data:body,
+    ...(options || {}),
+  });
+}
+
+
+/** 删除课程接口 POST /api/course/delete */
+export async function deleteCourse(body: number) {
+  return request<API.BaseResponse<number>>('/api/course/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  });
+}
+

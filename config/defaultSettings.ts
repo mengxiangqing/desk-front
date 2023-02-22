@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '智能助理',
   pwa: false,
-  logo: '/logo-sdu.png',
+  logo: '/logo-left.png',
   iconfontUrl: '',
 };
 

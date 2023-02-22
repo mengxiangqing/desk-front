@@ -1,7 +1,9 @@
 // @ts-ignore
 /* eslint-disable */
 
+
 declare namespace API {
+  import {List} from "antd";
   type CurrentUser = {
     id: number;
     username: string;
@@ -48,13 +50,41 @@ declare namespace API {
     phone?: string;
     gender?: number
   };
-  type DeleteUserParam  = number;
+  type DeleteUserParam = number;
 
 
   type SearchUser = {
     username: string;
     userAccount: number;
   }
+
+  type SearchCourseParam = {
+    courseName: string;
+    courseNumber: string;
+    teachers: string[];
+  }
+  type Course = {
+    id: number;
+    courseNumber: string;
+    courseName: string;
+    teachingTime: string;
+    college: string;
+    phone: string;
+    teachers: string[]
+    classroomId: number;
+    chooseNum: number;
+    startWeek: number;
+    endWeek: number;
+    averageUpRate: number;
+    averageAttendRate: number;
+    averageFrontRate: number;
+    createTime: Date;
+    updateTime: date;
+    createUser: number;
+    updateUser: number;
+    remark: string;
+  }
+
 
   type LoginParams = {
     userAccount?: string;
