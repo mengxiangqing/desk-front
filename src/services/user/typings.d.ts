@@ -46,12 +46,14 @@ declare namespace API {
     remark?: string;
     email?: string;
     phone?: string;
+    gender?: number
   };
-  type DeleteUserParam = number;
+  type DeleteUserParam  = number;
+
 
   type SearchUser = {
-    username:string;
-    userAccount:number;
+    username: string;
+    userAccount: number;
   }
 
   type LoginParams = {

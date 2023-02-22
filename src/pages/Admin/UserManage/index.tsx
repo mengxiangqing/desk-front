@@ -1,11 +1,11 @@
-import {deleteUser, searchUsers} from '@/services/user/api';
+import {deleteUser, searchUsers, updateUser} from '@/services/user/api';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {message, Popconfirm} from 'antd';
-import {useRef, useState} from 'react';
+import {Popconfirm} from 'antd';
+import React, {useRef, useState} from 'react';
 
 
-const DeleteConfirm = (record: any) => {
+const DeleteConfirm = (record: { record: { id: API.DeleteUserParam; }; }) => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -15,9 +15,10 @@ const DeleteConfirm = (record: any) => {
   };
 
   const handleOk = async () => {
-    await deleteUser(record.id);
+
+    await deleteUser(record.record.id);
+
     setConfirmLoading(true);
-    message.success("用户已删除");
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
@@ -47,6 +48,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
+    editable:false,
     hideInSearch: true,
     // valueType: 'indexBorder',
     width: 48,
@@ -59,6 +61,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
   {
     title: '学工号',
     dataIndex: 'userAccount',
+    editable:false,
     copyable: true,
   },
   // {
@@ -94,13 +97,14 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'email',
     hideInSearch: true,
     copyable: true,
-    ellipsis: true,
-    tip: '过长会自动收缩',
+    // ellipsis: true,
+    // tip: '过长会自动收缩',
   },
   {
     title: '角色',
     dataIndex: 'userRole',
     hideInSearch: true,
+    editable:false,
     valueType: 'select',
     filters: true,
     valueEnum: {
@@ -126,8 +130,9 @@ const columns: ProColumns<API.CurrentUser>[] = [
     title: '创建时间',
     dataIndex: 'createTime',
     hideInSearch: true,
-    tip: '过长会自动收缩',
-    ellipsis: true,
+    editable:false,
+    // tip: '过长会自动收缩',
+    // ellipsis: true,
     sorter: true,
 
     valueType: 'dateTime',
@@ -142,6 +147,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'userStatus',
     hideInSearch: true,
     filters: true,
+    editable:false,
     valueEnum: {
       0: {
         text: "正常",
@@ -174,7 +180,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
       >
         编辑
       </a>,
-      <DeleteConfirm key='delete' record/>
+      <DeleteConfirm key='delete' record={record}/>
     ],
   },
 ];
@@ -182,7 +188,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
 
 export default () => {
   const actionRef = useRef<ActionType>();
-
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
   return (
     <ProTable<API.CurrentUser>
       columns={columns}
@@ -191,13 +197,21 @@ export default () => {
       // @ts-ignore
       request={async (params?: { username: string, pageSize: number, current: number }, sort, filter) => {
         console.log(params, sort, filter);
-        const userList = await searchUsers({...params, sort, filter} as API.SearchUser);
+        const userList = await searchUsers({...params, sort, filter} as unknown as API.SearchUser);
         return {
           data: userList,
         };
       }}
       editable={{
         type: 'multiple',
+        editableKeys,
+        onSave: async (rowKey, data, row) => {
+          // console.log(rowKey, data, row);
+          await updateUser(data);
+
+          // await waitTime(2000);
+        },
+        onChange: setEditableRowKeys,
       }}
       columnsState={{
         persistenceKey: 'pro-table-singe-demos',
@@ -207,21 +221,7 @@ export default () => {
       search={{
         labelWidth: 'auto',
       }}
-      form={{
-        // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
-        syncToUrl: (values, type) => {
-          if (type === 'get') {
-            return {
-              ...values,
-              created_at: [values.startTime, values.endTime],
-            };
-          }
-          return values;
-        },
-      }}
-      pagination={{
-        pageSize: 5,
-      }}
+
       // dateFormatter="string"
       // headerTitle="用户列表"
     />

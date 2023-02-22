@@ -47,14 +47,13 @@ export async function updateUser(body: API.UpdateUserParams, options?: { [key: s
     ...(options || {}),
   });
 }/** 删除用户信息接口 POST /api/user/delete */
-export async function deleteUser(body:API.DeleteUserParam, options?: { [key: string]: any }) {
-  return request<API.BaseResponse<API.UpdateUserResult>>('/api/user/delete', {
+export async function deleteUser(body: number) {
+  return request<API.BaseResponse<number>>('/api/user/delete', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     data: body,
-    ...(options || {}),
   });
 }
 
