@@ -54,6 +54,12 @@ export default [
     component: './course/CourseList',
   },
   {
+    name: '分析页',
+    icon: 'smile',
+    path: '/dashboardanalysis',
+    component: './DashboardAnalysis',
+  },
+  {
     component: './404',
   },
 ];

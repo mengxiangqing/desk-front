@@ -24,6 +24,7 @@ export default () => {
         <ProCard split="horizontal">
           <ProCard split="horizontal">
             <ProCard split="vertical">
+
               <StatisticCard
                 statistic={{
                   title: '昨日全部流量',
