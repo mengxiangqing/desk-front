@@ -1,14 +1,14 @@
-import {Card, Col, Form, List, Pagination, Radio, Row, Select} from 'antd';
-import type {FC} from 'react';
-import {useEffect, useState} from 'react';
+import { Card, Col, Form, List, Pagination, Radio, Row, Select } from 'antd';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 
 import styles from './style.less';
-import RoomCard from "@/components/RoomCard";
-import {searchClassRooms} from "@/services/api";
+import RoomCard from '@/components/RoomCard';
+import { searchClassRooms } from '@/services/api';
 
-const {Option} = Select;
+const { Option } = Select;
 const FormItem = Form.Item;
 
 const ListSearchProjects: FC = () => {
@@ -19,14 +19,14 @@ const ListSearchProjects: FC = () => {
     filter: [],
     roomStatus: 0,
     address: ['电子楼', '图东楼', '图西楼', '文学楼', '东北亚', '闻天楼'],
-    roomName: "",
+    roomName: '',
     seatRate: 666,
-    sort: "ascend"
+    sort: 'ascend',
   });
   // 分页器相关参数
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 9,
+    pageSize: 12,
     total: 0,
   });
   // 数据加载时显不显示  加载图标
@@ -38,7 +38,7 @@ const ListSearchProjects: FC = () => {
       const data = await searchClassRooms({
         ...params,
         current: pagination.current,
-        pageSize: pagination.pageSize
+        pageSize: pagination.pageSize,
       } as API.SearchClassRoomParam);
       // @ts-ignore
       setList(data.records);
@@ -60,20 +60,18 @@ const ListSearchProjects: FC = () => {
 
   // 分页器改变时触发的回调函数
   const handlePageChange = async (current: number, pageSize?: number) => {
-    console.log("触发, current：" + current + " size: " + pageSize)
+    console.log('触发, current：' + current + ' size: ' + pageSize);
     await setPagination({
       ...pagination,
       current: current,
-      pageSize: pageSize || pagination.pageSize
+      pageSize: pageSize || pagination.pageSize,
     });
     console.log(pagination);
-
   };
 
   useEffect(() => {
     handleSearch();
   }, [pagination]); // 第二个参数为[]，表示只在组件初始化时调用一次
-
 
   const cardList = list && (
     <>
@@ -113,24 +111,23 @@ const ListSearchProjects: FC = () => {
     </>
   );
 
-
   const formItemLayout = {
     wrapperCol: {
-      xs: {span: 24},
-      sm: {span: 16},
+      xs: { span: 24 },
+      sm: { span: 16 },
     },
   };
 
   function onSortChange() {
-    let newSort: string = "ascend";
-    if (params.sort == "ascend") {
-      newSort = "descend";
+    let newSort: string = 'ascend';
+    if (params.sort == 'ascend') {
+      newSort = 'descend';
     }
     setParams({
       ...params,
-      sort: newSort
+      sort: newSort,
     });
-    handleSearch()
+    handleSearch();
   }
 
   return (
@@ -143,22 +140,21 @@ const ListSearchProjects: FC = () => {
             if (values.address) {
               params.address = values.address;
             }
-            params.seatRate = values.seatRate
-            params.filter = values.roomStatus
-            params.roomStatus = values.roomStatus
+            params.seatRate = values.seatRate;
+            params.filter = values.roomStatus;
+            params.roomStatus = values.roomStatus;
 
             // params.sort = "ascend"
-            console.log("params");
+            console.log('params');
             console.log(params);
             // 表单项变化时请求数据
-            setParams({...params} as API.SearchClassRoomParam)
+            setParams({ ...params } as API.SearchClassRoomParam);
             const promise = handleSearch();
-            console.log("promise");
+            console.log('promise');
             console.log(promise);
           }}
         >
-
-          <StandardFormRow title="建筑选项" block style={{paddingBottom: 11}}>
+          <StandardFormRow title="建筑选项" block style={{ paddingBottom: 11 }}>
             <FormItem name="address">
               <TagSelect>
                 <TagSelect.Option value="电子楼">电子楼</TagSelect.Option>
@@ -174,7 +170,11 @@ const ListSearchProjects: FC = () => {
             <Row gutter={16}>
               <Col lg={8} md={10} sm={10} xs={24}>
                 <FormItem {...formItemLayout} label="开放状态" name="roomStatus">
-                  <Select placeholder="不限" key="statusOps" style={{maxWidth: 128, width: '100%'}}>
+                  <Select
+                    placeholder="不限"
+                    key="statusOps"
+                    style={{ maxWidth: 128, width: '100%' }}
+                  >
                     <Option value={undefined}>不限</Option>
                     <Option value={0}>空闲</Option>
                     <Option value={1}>有课</Option>
@@ -184,8 +184,7 @@ const ListSearchProjects: FC = () => {
               </Col>
               <Col lg={8} md={10} sm={10} xs={24}>
                 <FormItem {...formItemLayout} label="落座状态" name="seatRate">
-                  <Select placeholder={"不限"} style={{maxWidth: 128, width: '100%'}}>
-
+                  <Select placeholder={'不限'} style={{ maxWidth: 128, width: '100%' }}>
                     <Option value={666}>不限</Option>
                     <Option value={0}>空旷</Option>
                     <Option value={25}>稀疏</Option>
@@ -196,9 +195,9 @@ const ListSearchProjects: FC = () => {
                 </FormItem>
               </Col>
               <Col lg={8} md={10} sm={10} xs={24}>
-                <Radio.Group onChange={onSortChange} >
-                  <Radio value={"ascend"}>由低到高</Radio>
-                  <Radio value={"descend"}>由高到低</Radio>
+                <Radio.Group onChange={onSortChange}>
+                  <Radio value={'ascend'}>由低到高</Radio>
+                  <Radio value={'descend'}>由高到低</Radio>
                 </Radio.Group>
               </Col>
             </Row>
