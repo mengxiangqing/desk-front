@@ -33,6 +33,14 @@ declare namespace API {
     description: string;
   };
 
+  type PageData<T> = {
+    total: number;
+    current: number;
+    pages: number;
+    size: number;
+    records: T[];
+  }
+
   type RegisterResult = number;
   type UpdateUserResult = number;
 

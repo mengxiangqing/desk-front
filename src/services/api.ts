@@ -81,7 +81,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
 /** 搜索课程接口 POST /api/course/search */
 export async function searchCourses(body:API.SearchCourseParam,options?: { [key: string]: any }) {
   console.log(options)
-  return request<API.BaseResponse<API.Course[]>>('/api/course/search', {
+  return request<API.BaseResponse<API.PageData<API.Course[]>>>('/api/course/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
