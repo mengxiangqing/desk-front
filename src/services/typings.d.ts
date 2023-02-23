@@ -3,7 +3,6 @@
 
 
 declare namespace API {
-  import {List} from "antd";
   type CurrentUser = {
     id: number;
     username: string;
@@ -85,7 +84,25 @@ declare namespace API {
     remark: string;
   }
 
+  type ClassRoom = {
+    id: number;
+    roomName: string;
+    capacity: number;
+    humans: number;
+    address: string;
+    roomStatus: number;
+    seatRate: number;
+    updateTime: Date;
+  }
 
+  type SearchClassRoomParam = {
+    roomName: string;
+    seatRate: number;
+    address: string[];
+    roomStatus: number;
+    sort: string;
+    filter: string[];
+  }
   type LoginParams = {
     userAccount?: string;
     userPassword?: string;

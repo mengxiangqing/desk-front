@@ -1,4 +1,4 @@
-import {deleteCourse, searchCourses, updateUser} from '@/services/user/api';
+import {deleteCourse, searchCourses, updateUser} from '@/services/api';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {Popconfirm} from 'antd';

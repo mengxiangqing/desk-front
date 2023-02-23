@@ -60,6 +60,18 @@ export default [
     component: './DashboardAnalysis',
   },
   {
+    name: '查询教室',
+    icon: 'smile',
+    path: '/room/list',
+    component: './Room/RoomList',
+  },
+  {
+    name: '查询教师',
+    icon: 'smile',
+    path: '/teacher/list',
+    component: './Teacher/TeacherList',
+  },
+  {
     component: './404',
   },
 ];

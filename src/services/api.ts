@@ -90,6 +90,17 @@ export async function searchCourses(body:API.SearchCourseParam,options?: { [key:
     ...(options || {}),
   });
 }
+/** 搜索教室接口 POST /api/room/search */
+export async function searchClassRooms(body:API.SearchClassRoomParam,options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.ClassRoom[]>>('/api/room/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data:body,
+    ...(options || {}),
+  });
+}
 
 
 /** 删除课程接口 POST /api/course/delete */

@@ -1,48 +1,8 @@
-import {deleteUser, searchUsers, updateUser} from '@/services/api';
+import {searchUsers, updateUser} from '@/services/api';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {Popconfirm} from 'antd';
 import React, {useRef, useState} from 'react';
 
-
-const DeleteConfirm = (record: { record: { id: API.DeleteUserParam; }; }) => {
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
-  const showPopconfirm = () => {
-    setOpen(true);
-
-  };
-
-  const handleOk = async () => {
-
-    await deleteUser(record.record.id);
-
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
-  return (
-    <Popconfirm
-      title="确认删除用户"
-      visible={open}
-      onConfirm={handleOk}
-      okButtonProps={{loading: confirmLoading}}
-      onCancel={handleCancel}
-    >
-      <a onClick={showPopconfirm}>
-        删除
-      </a>
-    </Popconfirm>
-  );
-};
 
 const columns: ProColumns<API.CurrentUser>[] = [
   {
@@ -159,23 +119,6 @@ const columns: ProColumns<API.CurrentUser>[] = [
     }
   },
 
-  {
-    title: '操作',
-    valueType: 'option',
-    hideInSearch: true,
-    key: 'option',
-    render: (text, record, _, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        编辑
-      </a>,
-      <DeleteConfirm key='delete' record={record}/>
-    ],
-  },
 ];
 
 

@@ -21,7 +21,8 @@ const request = extend({
  */
 request.interceptors.request.use((url, options): any => {
   console.log(`do request url = ${url}`);
-  console.log(options.headers)
+  console.log("options");
+  console.log(options);
 
   return {
     url,
