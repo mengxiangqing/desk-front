@@ -1,34 +1,38 @@
-import {ModalForm,} from '@ant-design/pro-components';
-import ProCard from "@/components/ProCard";
+import { ModalForm } from '@ant-design/pro-components';
+import ProCard from '@/components/ProCard';
 
+interface Props {
+  record: {
+    id: API.DeleteUserParam;
+  };
+}
 
-export default (record: { record: { id: API.DeleteUserParam; }; }) => {
-  // const [modalVisit, setModalVisit] = useState(false);
+export default ({ record }: Props) => {
+  // console.log(record);
   return (
     <ModalForm
-      // open={modalVisit}
-      // onOpenChange={setModalVisit}
-
-      submitter={{
-        render: (props, defaultDoms) => {
-          return [
-            // ...defaultDoms,
-          ];
-        },
-      }}
+      initialValues={{ courseId: record.id }}
       title="课程详情"
       trigger={
         <a type="primary">
           详情
         </a>
       }
-
+      submitter={{
+      /*去掉 确认和取消 按钮*/
+        render: () => {
+          return [
+            // ...defaultDoms,
+          ];
+        },
+      }}
       modalProps={{
         destroyOnClose: true,
-        // onCancel: () => console.log('run'),
+        maskClosable: false
       }}
     >
-      <ProCard/>
+      {/*向数据卡片传递课程ID*/}
+      <ProCard course={record.id} />
     </ModalForm>
   );
 };
