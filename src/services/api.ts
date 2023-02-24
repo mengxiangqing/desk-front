@@ -10,15 +10,16 @@ export async function currentUser(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
 /** 搜索用户接口 POST /api/user/search */
-export async function searchUsers(body:API.SearchUser,options?: { [key: string]: any }) {
+export async function searchUsers(body: API.SearchUser, options?: { [key: string]: any }) {
   console.log(options)
   return request<API.BaseResponse<API.CurrentUser[]>>('/api/user/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data:body,
+    data: body,
     ...(options || {}),
   });
 }
@@ -46,7 +47,9 @@ export async function updateUser(body: API.UpdateUserParams, options?: { [key: s
     data: body,
     ...(options || {}),
   });
-}/** 删除用户信息接口 POST /api/user/delete */
+}
+
+/** 删除用户信息接口 POST /api/user/delete */
 export async function deleteUser(body: number) {
   return request<API.BaseResponse<number>>('/api/user/delete', {
     method: 'POST',
@@ -79,25 +82,38 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
 
 
 /** 搜索课程接口 POST /api/course/search */
-export async function searchCourses(body:API.SearchCourseParam,options?: { [key: string]: any }) {
-  console.log(options)
+export async function searchCourses(body: API.SearchCourseParam, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.PageData<API.Course[]>>>('/api/course/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data:body,
+    data: body,
+    ...(options || {}),
+  });
+
+}
+
+/** 搜索课程详细信息接口 POST /api/course/detail */
+export async function getCourseDetail(body: number, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CourseDetailResult>>('/api/course/detail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
     ...(options || {}),
   });
 }
+
 /** 搜索教室接口 POST /api/room/search */
-export async function searchClassRooms(body:API.SearchClassRoomParam,options?: { [key: string]: any }) {
+export async function searchClassRooms(body: API.SearchClassRoomParam, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.ClassRoom[]>>('/api/room/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data:body,
+    data: body,
     ...(options || {}),
   });
 }

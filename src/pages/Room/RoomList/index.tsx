@@ -71,7 +71,7 @@ const ListSearchProjects: FC = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [pagination]); // 第二个参数为[]，表示只在组件初始化时调用一次
+  }, [pagination]); //
 
   const cardList = list && (
     <>

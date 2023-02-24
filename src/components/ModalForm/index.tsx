@@ -1,5 +1,5 @@
 import { ModalForm } from '@ant-design/pro-components';
-import ProCard from '@/components/ProCard';
+import CourseDetailCard from '../CourseDetailCard';
 
 interface Props {
   record: {
@@ -9,6 +9,7 @@ interface Props {
 
 export default ({ record }: Props) => {
   // console.log(record);
+  // @ts-ignore
   return (
     <ModalForm
       initialValues={{ courseId: record.id }}
@@ -28,11 +29,11 @@ export default ({ record }: Props) => {
       }}
       modalProps={{
         destroyOnClose: true,
-        maskClosable: false
+        // maskClosable: false
       }}
     >
       {/*向数据卡片传递课程ID*/}
-      <ProCard course={record.id} />
+      <CourseDetailCard course={record.id} />
     </ModalForm>
   );
 };

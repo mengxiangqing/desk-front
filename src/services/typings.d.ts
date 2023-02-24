@@ -111,6 +111,32 @@ declare namespace API {
     sort: string;
     filter: string[];
   }
+  type CourseDetailResult = {
+    // id: number;
+    courseId: number;
+    // 最近一讲课堂指标
+    latestUpRate: number;
+    latestAttendRate: number;
+    latestFrontRate: number;
+    // 本月平均指标
+    averageUpRateThisMonth: number;
+    averageAttendRateThisMonth: number;
+    averageFrontRateThisMonth: number;
+    // 上月平均指标
+    averageUpRateLastMonth: number;
+    averageAttendRateLastMonth: number;
+    averageFrontRateLastMonth: number;
+    // 课程平均指标
+    averageUpRate: number;
+    averageAttendRate: number;
+    averageFrontRate: number;
+
+    courseData: string;
+    averageData: string;
+
+  }
+
+
   type LoginParams = {
     userAccount?: string;
     userPassword?: string;
