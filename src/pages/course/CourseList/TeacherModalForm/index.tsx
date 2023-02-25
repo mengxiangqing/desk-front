@@ -18,8 +18,8 @@ const TeacherModalForm: React.FC<Props> = ({ courseId, teacher, teacherName }) =
     <ModalForm
       title={
         <>
-          教师详情
-          <div style={{ fontSize: '12px' }}>这是副标题</div>
+            历史课程数据
+          <div style={{textAlign: 'center', fontSize: '18px'}}>教师：{teacherName}</div>
         </>
       }
       width={1200}
