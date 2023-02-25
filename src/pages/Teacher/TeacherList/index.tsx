@@ -123,11 +123,11 @@ export default () => {
       cardBordered
       // @ts-ignore
       request={async (
-        params?: { username: string; pageSize: number; current: number },
-        sort,
-        filter,
+        params: { username: string; pageSize: number; current: number },
+        sort?,
+        filter?,
       ) => {
-        console.log(params, sort, filter);
+        // console.log(params, sort, filter);
         const userList = await searchTeachers({
           ...params,
           sort,

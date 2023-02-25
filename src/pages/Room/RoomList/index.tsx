@@ -1,28 +1,31 @@
-import { Card, Col, Form, List, Pagination, Radio, Row, Select } from 'antd';
-import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import {Button, Card, Col, Form, List, Pagination, Radio, Row, Select} from 'antd';
+import type {FC} from 'react';
+import {useEffect, useState} from 'react';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 
 import styles from './style.less';
 import RoomCard from '@/pages/Room/RoomList/RoomCard';
-import { searchClassRooms } from '@/services/api';
+import {searchClassRooms} from '@/services/api';
 
-const { Option } = Select;
+const {Option} = Select;
 const FormItem = Form.Item;
 
 const ListSearchProjects: FC = () => {
-  // 存放列表项
-  const [list, setList] = useState<API.ClassRoom[]>([]);
-  // 初始化参数列表，setParams用来设置参数
-  const [params, setParams] = useState<API.SearchClassRoomParam>({
+  const initParam = {
     filter: [],
     roomStatus: 0,
     address: ['电子楼', '图东楼', '图西楼', '文学楼', '东北亚', '闻天楼'],
     roomName: '',
     seatRate: 666,
     sort: 'ascend',
-  });
+  }
+
+
+  // 存放列表项
+  const [list, setList] = useState<API.ClassRoom[]>([]);
+  // 初始化参数列表，setParams用来设置参数
+  const [params, setParams] = useState<API.SearchClassRoomParam>(initParam);
   // 分页器相关参数
   const [pagination, setPagination] = useState({
     current: 1,
@@ -60,7 +63,7 @@ const ListSearchProjects: FC = () => {
 
   // 分页器改变时触发的回调函数
   const handlePageChange = async (current: number, pageSize?: number) => {
-    console.log('触发, current：' + current + ' size: ' + pageSize);
+    // console.log('触发, current：' + current + ' size: ' + pageSize);
     await setPagination({
       ...pagination,
       current: current,
@@ -95,6 +98,7 @@ const ListSearchProjects: FC = () => {
               seatRate={item.seatRate}
               human={item.humans}
               capacity={item.capacity}
+              updateTime={item.updateTime}
             />
           </List.Item>
         )}
@@ -113,12 +117,14 @@ const ListSearchProjects: FC = () => {
 
   const formItemLayout = {
     wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 16 },
+      xs: {span: 24},
+      sm: {span: 16},
     },
   };
 
-  function onSortChange() {
+
+  async function onSortChange() {
+
     let newSort: string = 'ascend';
     if (params.sort == 'ascend') {
       newSort = 'descend';
@@ -127,7 +133,7 @@ const ListSearchProjects: FC = () => {
       ...params,
       sort: newSort,
     });
-    handleSearch();
+    await handleSearch();
   }
 
   return (
@@ -144,17 +150,17 @@ const ListSearchProjects: FC = () => {
             params.filter = values.roomStatus;
             params.roomStatus = values.roomStatus;
 
-            // params.sort = "ascend"
-            console.log('params');
-            console.log(params);
+            // // params.sort = "ascend"
+            // console.log('params');
+            // console.log(params);
             // 表单项变化时请求数据
-            setParams({ ...params } as API.SearchClassRoomParam);
-            const promise = handleSearch();
-            console.log('promise');
-            console.log(promise);
+            setParams({...params} as API.SearchClassRoomParam);
+            handleSearch();
+            // console.log('promise');
+            // console.log(promise);
           }}
         >
-          <StandardFormRow title="建筑选项" block style={{ paddingBottom: 11 }}>
+          <StandardFormRow title="建筑选项" block style={{paddingBottom: 11}}>
             <FormItem name="address">
               <TagSelect>
                 <TagSelect.Option value="电子楼">电子楼</TagSelect.Option>
@@ -163,6 +169,17 @@ const ListSearchProjects: FC = () => {
                 <TagSelect.Option value="文学楼">文学楼</TagSelect.Option>
                 <TagSelect.Option value="东北亚">东北亚</TagSelect.Option>
                 <TagSelect.Option value="闻天楼">闻天楼</TagSelect.Option>
+                <Button
+                  type="primary"
+                  style={{marginLeft: 10}}
+                  onClick={() => {
+
+                    setParams({...params} as API.SearchClassRoomParam);
+                    handleSearch()
+                  }}
+                >
+                  刷新
+                </Button>
               </TagSelect>
             </FormItem>
           </StandardFormRow>
@@ -173,7 +190,7 @@ const ListSearchProjects: FC = () => {
                   <Select
                     placeholder="不限"
                     key="statusOps"
-                    style={{ maxWidth: 128, width: '100%' }}
+                    style={{maxWidth: 128, width: '100%'}}
                   >
                     <Option value={undefined}>不限</Option>
                     <Option value={0}>空闲</Option>
@@ -184,7 +201,7 @@ const ListSearchProjects: FC = () => {
               </Col>
               <Col lg={8} md={10} sm={10} xs={24}>
                 <FormItem {...formItemLayout} label="落座状态" name="seatRate">
-                  <Select placeholder={'不限'} style={{ maxWidth: 128, width: '100%' }}>
+                  <Select placeholder={'不限'} style={{maxWidth: 128, width: '100%'}}>
                     <Option value={666}>不限</Option>
                     <Option value={0}>空旷</Option>
                     <Option value={25}>稀疏</Option>
