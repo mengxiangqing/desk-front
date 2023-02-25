@@ -73,6 +73,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     waterMarkProps: {
       content: initialState?.currentUser?.username,
     },
+    iconfontUrl: "//at.alicdn.com/t/c/font_3917171_0in5qm9vlb26.js",
     footerRender: () => <Footer/>,
     onPageChange: () => {
       const {location} = history;

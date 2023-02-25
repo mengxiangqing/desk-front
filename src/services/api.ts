@@ -22,6 +22,17 @@ export async function searchUsers(body: API.SearchUser, options?: { [key: string
     data: body,
     ...(options || {}),
   });
+
+}/** 搜索用户接口 POST /api/user/teacher */
+export async function searchTeachers(body: API.SearchUser, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser[]>>('/api/user/teacher', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
 }
 
 /** 注册接口 POST /api/user/register */

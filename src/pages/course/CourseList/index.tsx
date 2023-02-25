@@ -6,6 +6,7 @@ import React, {useRef, useState} from 'react';
 import access from "@/access";
 import {getInitialState} from "@/app";
 import ModalForm from "@/components/ModalForm";
+import TeacherModalForm from "@/pages/course/CourseList/TeacherModalForm";
 
 const acc = access(await getInitialState());
 
@@ -85,9 +86,20 @@ export default () => {
 
     {
       title: '授课教师',
-      dataIndex: 'teachers',
+      dataIndex: 'teacherName',
       hideInSearch: true,
       editable: false,
+      render: (text, record, _, action) => {
+        if (record.teacherName) {
+          return [
+            <TeacherModalForm key={"teacherDetail"} courseId={record.id} teacher={record.teacher} teacherName={record.teacherName}/>,
+          ];
+        } else {
+          return (
+            "——"
+          );
+        }
+      },
     },
     {
       title: '创建时间',
@@ -129,7 +141,7 @@ export default () => {
           ];
         } else {
           return (
-            <ModalForm key={"courseDetail"} record={record} />
+            <ModalForm key={"courseDetail"} record={record}/>
           );
         }
       },

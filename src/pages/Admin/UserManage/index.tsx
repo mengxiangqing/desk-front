@@ -101,11 +101,11 @@ const columns: ProColumns<API.CurrentUser>[] = [
     valueEnum: {
       1: {
         text: '学生',
-        status: 'Default',
+        status: 'Processing',
       },
       2: {
         text: '教师',
-        status: 'Success',
+        status: 'Error',
       },
       3: {
         text: '督导员',

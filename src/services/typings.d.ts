@@ -66,7 +66,7 @@ declare namespace API {
   type SearchCourseParam = {
     courseName: string;
     courseNumber: string;
-    teachers: string[];
+    teacher: number;
   };
   type Course = {
     id: number;
@@ -75,7 +75,9 @@ declare namespace API {
     teachingTime: string;
     college: string;
     phone: string;
-    teachers: string[];
+    teacher: number;
+    teacherNum: string;
+    teacherName: string;
     classroomId: number;
     chooseNum: number;
     startWeek: number;

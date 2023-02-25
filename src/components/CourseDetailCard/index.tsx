@@ -132,7 +132,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
       let hoverData: any[] = []; // 声明 hoverData 的类型为一个数组类型
       // plot 添加点击事件,整个图表区域
       plot.on('plot:click', (...args) => {
-        console.log(hoverData);
+        // console.log(hoverData);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         if (hoverData && hoverData.length > 0) {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -151,7 +151,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
         classId,
         course,
       } as unknown as API.getSingleClassDetailParam);
-      console.log(classResult);
+      // console.log(classResult);
       let classData;
       if (classResult) {
         // @ts-ignore
