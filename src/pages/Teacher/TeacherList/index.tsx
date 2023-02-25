@@ -1,12 +1,8 @@
-import access from '@/access';
-import {searchTeachers, updateUser} from '@/services/api';
-import type {ActionType, ProColumns} from '@ant-design/pro-table';
+import { searchTeachers, updateUser } from '@/services/api';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import React, {useRef, useState} from 'react';
-import {getInitialState} from "@/app";
+import React, { useRef, useState } from 'react';
 import TeacherModalForm from '@/pages/course/CourseList/TeacherModalForm';
-
-const acc = access(await getInitialState());
 
 const columns: ProColumns<API.CurrentUser>[] = [
   {
@@ -34,12 +30,12 @@ const columns: ProColumns<API.CurrentUser>[] = [
     hideInSearch: true,
     valueEnum: {
       0: {
-        text: '女'
-      }, 1: {
-        text: '男'
-      }
-
-    }
+        text: '女',
+      },
+      1: {
+        text: '男',
+      },
+    },
   },
   {
     title: '电话',
@@ -91,15 +87,15 @@ const columns: ProColumns<API.CurrentUser>[] = [
     editable: false,
     valueEnum: {
       0: {
-        text: "正常",
+        text: '正常',
       },
       4: {
-        text: "离职",
+        text: '离职',
       },
       5: {
-        text: "退休",
+        text: '退休',
       },
-    }
+    },
   },
   {
     title: '更多',
@@ -107,11 +103,15 @@ const columns: ProColumns<API.CurrentUser>[] = [
     hideInSearch: true,
     key: 'option',
     render: (text, record, _, action) => (
-      <TeacherModalForm key={"teacherDetail"} teacher={record.id} courseId={-1} teacherName={record.username}/>
+      <TeacherModalForm
+        key={'teacherDetail'}
+        teacher={record.id}
+        courseId={-1}
+        teacherName={record.username}
+      />
     ),
-  }
+  },
 ];
-
 
 export default () => {
   const actionRef = useRef<ActionType>();
@@ -122,9 +122,17 @@ export default () => {
       actionRef={actionRef} //Table action 的引用，便于自定义触发
       cardBordered
       // @ts-ignore
-      request={async (params?: { username: string, pageSize: number, current: number }, sort, filter) => {
+      request={async (
+        params?: { username: string; pageSize: number; current: number },
+        sort,
+        filter,
+      ) => {
         console.log(params, sort, filter);
-        const userList = await searchTeachers({...params, sort, filter} as unknown as API.SearchUser);
+        const userList = await searchTeachers({
+          ...params,
+          sort,
+          filter,
+        } as unknown as API.SearchUser);
         return {
           data: userList,
         };

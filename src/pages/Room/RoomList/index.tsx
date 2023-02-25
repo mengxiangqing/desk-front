@@ -5,7 +5,7 @@ import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 
 import styles from './style.less';
-import RoomCard from '@/components/RoomCard';
+import RoomCard from '@/pages/Room/RoomList/RoomCard';
 import { searchClassRooms } from '@/services/api';
 
 const { Option } = Select;

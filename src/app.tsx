@@ -1,11 +1,11 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import type {Settings as LayoutSettings} from '@ant-design/pro-components';
-import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
-import type {RequestConfig, RunTimeLayoutConfig} from 'umi';
-import {history} from 'umi';
+import type { Settings as LayoutSettings } from '@ant-design/pro-components';
+import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
+import type { RequestConfig } from 'umi';
+import { history } from 'umi';
 import defaultSettings from '../config/defaultSettings';
-import {currentUser as queryCurrentUser} from './services/api';
+import { currentUser as queryCurrentUser } from './services/api';
 
 export const request: RequestConfig = {
   timeout: 10000, //超时的时间
@@ -24,7 +24,7 @@ const NO_NEED_LOGIN_PAGES = ['/user/register', loginPath];
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
-  loading: <PageLoading/>,
+  loading: <PageLoading />,
   // loading: false
 };
 
@@ -59,24 +59,45 @@ export async function getInitialState(): Promise<{
   return {
     // @ts-ignore
     fetchUserInfo,
+    // @ts-ignore
     currentUser,
     settings: defaultSettings,
   };
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
+
+export const layout: ({
+  initialState,
+  setInitialState,
+}: {
+  initialState: any;
+  setInitialState: any;
+}) => {
+  childrenRender: (
+    children: any,
+    props: { location: { pathname: string | string[] } },
+  ) => JSX.Element;
+  waterMarkProps: { content: string | undefined };
+  rightContentRender: () => JSX.Element;
+  disableContentMargin: boolean;
+  footerRender: () => JSX.Element;
+  pageTitleRender: boolean;
+  onPageChange: () => void;
+  menuHeaderRender: boolean;
+  iconfontUrl: string;
+} = ({ initialState, setInitialState }) => {
   return {
     pageTitleRender: false,
-    rightContentRender: () => <RightContent/>,
+    rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
       content: initialState?.currentUser?.username,
     },
-    iconfontUrl: "//at.alicdn.com/t/c/font_3917171_0in5qm9vlb26.js",
-    footerRender: () => <Footer/>,
+    iconfontUrl: '//at.alicdn.com/t/c/font_3917171_0in5qm9vlb26.js',
+    footerRender: () => <Footer />,
     onPageChange: () => {
-      const {location} = history;
+      const { location } = history;
       if (NO_NEED_LOGIN_PAGES.includes(location.pathname)) {
         return;
       }
@@ -90,7 +111,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
     childrenRender: (children: any, props: { location: { pathname: string | string[] } }) => {
-      if (initialState?.loading) return <PageLoading/>;
+      if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
