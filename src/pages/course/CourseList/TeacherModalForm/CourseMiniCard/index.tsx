@@ -1,41 +1,47 @@
-import { DatabaseOutlined } from '@ant-design/icons';
-import { StatisticCard } from '@ant-design/pro-components';
-import { Progress } from 'antd';
+import {FundFilled, TagFilled} from '@ant-design/icons';
+import {ModalForm, StatisticCard} from '@ant-design/pro-components';
+import {Progress} from 'antd';
 import RcResizeObserver from 'rc-resize-observer';
+import {useState} from 'react';
+import CourseDetailCard from '../../CourseDetailCard';
 
-const { Statistic, Divider } = StatisticCard;
-
-export default ({ course }: { course: API.Course }) => {
-  // console.log(courseName);
-  // console.log(courseName, upRate, attendRate, frontRate)
-
+const {Statistic, Divider} = StatisticCard;
+export default ({course}: { course: API.Course }) => {
   const progressWidth = 80;
-  /*display: flex 将 <StatisticCard> 转为弹性容器，
-    justify-content: center 将其内部元素水平居中，
-    align-items: center 将其内部元素垂直居中。*/
+  const [visible, setVisible] = useState(false);
+
+  const handleButtonClick = () => {
+    setVisible(true);
+  };
+
+  const handleClose = () => {
+    setVisible(false);
+  };
+
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+  };
+
+
   return (
     <div>
       <RcResizeObserver key="resize-observer">
         <StatisticCard.Group direction={'row'}>
           <StatisticCard
             statistic={{
-              // title: "课程",
-              prefix: <DatabaseOutlined />,
+              title: '课程概览',
+              prefix: <TagFilled/>,
+              suffix: <FundFilled onClick={handleButtonClick}/>,
               value: `《${course.courseName}》`,
-              valueStyle: { fontSize: '20px' },
+              valueStyle: {fontSize: '20px'},
               description: (
                 <>
                   <Statistic
                     title={`   \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0课程号：${course.courseNumber}`}
                     value={' '}
                   />
-
-                  {/*<Statistic*/}
-                  {/*  title={`    \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0授课时间：${course.teachingTime}`}*/}
-                  {/*  value={" "}*/}
-                  {/*/>*/}
                   <Statistic
-                    title={`    \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0上课时间：${course.startWeek} - ${course.endWeek} 周`}
+                    title={`    \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0上课时间：第${course.startWeek} - ${course.endWeek} 周`}
                     value={' '}
                   />
                   <Statistic
@@ -45,8 +51,31 @@ export default ({ course }: { course: API.Course }) => {
                 </>
               ),
             }}
-          />
-          <Divider type={'vertical'} />
+          >
+
+            <ModalForm
+              title="课程详情"
+              // trigger={<a>点击此处查看课程性情</a>}
+              visible={visible}
+              onVisibleChange={setVisible}
+              onFinish={handleSubmit}
+              submitter={{
+                render: (props, defaultDoms) => {
+                  return [];
+                },
+              }}
+              modalProps={{
+                destroyOnClose: true,
+                onCancel: handleClose,
+                // maskClosable: false
+              }}
+            >
+              {/*向数据卡片传递课程ID*/}
+              <CourseDetailCard course={course.id}/>
+            </ModalForm>
+          </StatisticCard>
+
+          <Divider type={'vertical'}/>
           <StatisticCard
             statistic={{
               title: '平均抬头率',
@@ -57,12 +86,18 @@ export default ({ course }: { course: API.Course }) => {
             chart={
               <Progress
                 type="dashboard"
-                percent={course.averageUpRate.toFixed(2)}
-                format={(percent) => (percent >= 70 ? `高` : percent >= 40 ? '中' : '低')}
+                percent={Number(course.averageUpRate.toFixed(2))}
+                format={(percent) =>
+                  percent !== undefined && percent >= 70
+                    ? `高`
+                    : percent !== undefined && percent >= 40
+                      ? '中'
+                      : '低'
+                }
                 strokeLinecap="square"
                 strokeWidth={15}
                 width={progressWidth}
-                strokeColor={'#27f15f'}
+                strokeColor={'#9AA690'}
               />
             }
             chartPlacement="left"
@@ -77,12 +112,18 @@ export default ({ course }: { course: API.Course }) => {
             chart={
               <Progress
                 type="dashboard"
-                percent={course.averageAttendRate.toFixed(2)}
-                format={(percent) => (percent >= 85 ? `高` : percent >= 50 ? '中' : '低')}
+                percent={Number(course.averageAttendRate.toFixed(2))}
+                format={(percent) =>
+                  percent !== undefined && percent >= 85
+                    ? `高`
+                    : percent !== undefined && percent >= 50
+                      ? '中'
+                      : '低'
+                }
                 strokeLinecap="square"
                 strokeWidth={15}
                 width={progressWidth}
-                strokeColor={'#1890ff'}
+                strokeColor={'#91AD9E'}
               />
             }
             chartPlacement="left"
@@ -97,16 +138,18 @@ export default ({ course }: { course: API.Course }) => {
             chart={
               <Progress
                 type="dashboard"
-                percent={(course.averageFrontRate * 2).toFixed(2)}
-                format={(percent) => (percent >= 30 ? `高` : percent >= 15 ? '中' : '低')}
+                percent={Number(course.averageFrontRate.toFixed(2))}
+                format={(percent) =>
+                  percent !== undefined && percent >= 30
+                    ? `高`
+                    : percent !== undefined && percent >= 15
+                      ? '中'
+                      : '低'
+                }
                 strokeLinecap="square"
                 strokeWidth={15}
                 width={progressWidth}
-                strokeColor={{
-                  '0%': 'green',
-                  '50%': 'yellow',
-                  '100%': 'red',
-                }}
+                strokeColor={'#CEB797'}
               />
             }
             chartPlacement="left"

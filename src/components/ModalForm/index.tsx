@@ -1,5 +1,5 @@
 import { ModalForm } from '@ant-design/pro-components';
-import CourseDetailCard from '../CourseDetailCard';
+import CourseDetailCard from '../../pages/course/CourseList/CourseDetailCard';
 
 interface Props {
   record: {
@@ -8,19 +8,18 @@ interface Props {
 }
 
 export default ({ record }: Props) => {
+
+
+
   // console.log(record);
   // @ts-ignore
   return (
     <ModalForm
       initialValues={{ courseId: record.id }}
       title="课程详情"
-      trigger={
-        <a type="primary">
-          详情
-        </a>
-      }
+      trigger={<a type="primary">详情</a>}
       submitter={{
-      /*去掉 确认和取消 按钮*/
+        /*去掉 确认和取消 按钮*/
         render: () => {
           return [
             // ...defaultDoms,
