@@ -13,7 +13,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 搜索用户接口 POST /api/user/search */
 export async function searchUsers(body: API.SearchUser, options?: { [key: string]: any }) {
-  console.log(options)
+  console.log(options);
   return request<API.BaseResponse<API.CurrentUser[]>>('/api/user/search', {
     method: 'POST',
     headers: {
@@ -35,7 +35,6 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
     ...(options || {}),
   });
 }
-
 
 /** 更新用户信息接口 POST /api/user/update */
 export async function updateUser(body: API.UpdateUserParams, options?: { [key: string]: any }) {
@@ -80,7 +79,6 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
-
 /** 搜索课程接口 POST /api/course/search */
 export async function searchCourses(body: API.SearchCourseParam, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.PageData<API.Course[]>>>('/api/course/search', {
@@ -91,10 +89,9 @@ export async function searchCourses(body: API.SearchCourseParam, options?: { [ke
     data: body,
     ...(options || {}),
   });
-
 }
 
-/** 搜索课程详细信息接口 POST /api/course/detail */
+/** 获取课程详细信息接口 POST /api/course/detail */
 export async function getCourseDetail(body: number, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.CourseDetailResult>>('/api/course/detail', {
     method: 'POST',
@@ -106,9 +103,12 @@ export async function getCourseDetail(body: number, options?: { [key: string]: a
   });
 }
 
-/** 搜索教室接口 POST /api/room/search */
-export async function searchClassRooms(body: API.SearchClassRoomParam, options?: { [key: string]: any }) {
-  return request<API.BaseResponse<API.ClassRoom[]>>('/api/room/search', {
+/** 获取某一讲课详细信息接口 POST /api/class/getRate */
+export async function getSingleClassDetail(
+  body: API.getSingleClassDetailParam,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponse<API.SingleClassDetailResult>>('/api/class/getRate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -118,6 +118,20 @@ export async function searchClassRooms(body: API.SearchClassRoomParam, options?:
   });
 }
 
+/** 搜索教室接口 POST /api/room/search */
+export async function searchClassRooms(
+  body: API.SearchClassRoomParam,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponse<API.ClassRoom[]>>('/api/room/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
 
 /** 删除课程接口 POST /api/course/delete */
 export async function deleteCourse(body: number) {
@@ -129,4 +143,3 @@ export async function deleteCourse(body: number) {
     data: body,
   });
 }
-

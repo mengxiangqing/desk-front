@@ -1,18 +1,25 @@
-import {ProCard, StatisticCard} from '@ant-design/pro-components';
+import { ProCard, StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
-import React, {useEffect, useState} from 'react';
-import {DualAxes, Radar} from '@ant-design/charts';
-import {Modal} from 'antd';
-import {getCourseDetail} from "@/services/api";
+import { useEffect, useState } from 'react';
+import { Radar } from '@ant-design/charts';
+import { Line } from '@ant-design/plots';
 
-const CourseDetailCard: React.FC = (course) => {
+import { Modal } from 'antd';
+import { getCourseDetail, getSingleClassDetail } from '@/services/api';
+
+let classId: number = 0;
+const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
+  course,
+}: {
+  course: any;
+}) => {
   const [responsive, setResponsive] = useState(false);
   const [courseDetail, setCourseDetail] = useState(null);
-
   useEffect(() => {
     async function fetchData() {
       // @ts-ignore
-      const result = await getCourseDetail(course.course);
+      const result = await getCourseDetail(course);
+
       // @ts-ignore
       setCourseDetail(result);
     }
@@ -55,77 +62,32 @@ const CourseDetailCard: React.FC = (course) => {
   // @ts-ignore
   const averageData = courseDetail.averageData;
 
+  const DemoDualAxes = ({ classData }: { classData: any }) => {
+    if (!classData) {
+      return <div>暂无课程详细数据，等待课程更新中……</div>;
+    }
 
-  const DemoDualAxes = () => {
-    const data = [
-      {
-        year: '1991',
-        value: 3,
-        count: 10,
-      },
-      {
-        year: '1992',
-        value: 4,
-        count: 4,
-      },
-      {
-        year: '1993',
-        value: 3.5,
-        count: 5,
-      },
-      {
-        year: '1994',
-        value: 5,
-        count: 5,
-      },
-      {
-        year: '1995',
-        value: 4.9,
-        count: 4.9,
-      },
-      {
-        year: '1996',
-        value: 6,
-        count: 35,
-      },
-      {
-        year: '1997',
-        value: 7,
-        count: 7,
-      },
-      {
-        year: '1998',
-        value: 9,
-        count: 1,
-      },
-      {
-        year: '1999',
-        value: 13,
-        count: 20,
-      },
-    ];
     const config = {
-      data: [data, data],
-      xField: 'year',
-      yField: ['value', 'count'],
-      geometryOptions: [
-        {
-          geometry: 'line',
-          color: '#5B8FF9',
+      data: JSON.parse(classData),
+      xField: 'time',
+      yField: 'rate',
+      seriesField: 'name',
+      yAxis: {
+        min: 0,
+        max: 100,
+        label: {
+          formatter: (v: any) => `${v}%`,
         },
-        {
-          geometry: 'line',
-          color: '#5AD8A6',
-        },
-      ],
+      },
+      color: ['#1979C9', '#D62A0D', '#FAA219'],
     };
-    return <DualAxes {...config} />;
-  };
-  const {Statistic} = StatisticCard;
 
+    return <Line {...config} />;
+  };
+  const { Statistic } = StatisticCard;
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const CourseRadar = ({averageData}: { averageData: any }) => {
+  const CourseRadar = ({ averageData }: { averageData: any }) => {
     const config = {
       data: JSON.parse(averageData),
       xField: 'name',
@@ -161,121 +123,105 @@ const CourseDetailCard: React.FC = (course) => {
     return <Radar {...config} />;
   };
 
-
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const RateDualAxes = ({courseData}: { courseData: any }) => {
-// ECharts实例的ref
-    const onReadyLine = (plot: { on: (arg0: string, arg1: { (...args: any[]): void; (...args: any[]): void; }) => void; }) => {
-      let hoverData: any;
+  const RateDualAxes = ({ courseData }: { courseData: any }) => {
+    // ECharts实例的ref
+    const onReadyLine = (plot: {
+      on: (arg0: string, arg1: { (...args: any[]): void; (...args: any[]): void }) => void;
+    }) => {
+      let hoverData: any[] = []; // 声明 hoverData 的类型为一个数组类型
       // plot 添加点击事件,整个图表区域
       plot.on('plot:click', (...args) => {
         console.log(hoverData);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        if (hoverData.length > 0) {
+        if (hoverData && hoverData.length > 0) {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           handleTooltip(hoverData);
         }
       });
-
+      // 副标变化时 触发事件
       plot.on('tooltip:change', (...args) => {
         // hoverData = args[0].data.title;
-        hoverData = args
-
+        hoverData = args;
       });
+    };
+    const handleTooltip = async (datum: { data: { title: any } }[]) => {
+      classId = datum[0].data.title;
+      const classResult = await getSingleClassDetail({
+        classId,
+        course,
+      } as unknown as API.getSingleClassDetailParam);
+      console.log(classResult);
+      let classData;
+      if (classResult) {
+        // @ts-ignore
+        classData = classResult.classData;
+      }
 
-    }
-    const handleTooltip = (datum: { data: { title: any; }; }[]) => {
-      const NumOfCourse = datum[0].data.title
       // 在这里打开弹窗，并将饼图数据传递给弹窗组件
       Modal.info({
-        title: '课程第' + NumOfCourse + '讲详细数据',
-        content: <DemoDualAxes/>,
-        closable: true,//右上角关闭按钮
+        title: '课程第' + classId + '讲详细数据',
+        content: <DemoDualAxes classData={classData} />,
+        closable: true, //右上角关闭按钮
         //点击蒙层是否允许关闭
         maskClosable: true,
         centered: true,
-        okButtonProps: {style: {display: 'none'}},
+        okButtonProps: { style: { display: 'none' } },
         width: 800,
-        style: {marginRight: '15px'}
-
+        style: { marginRight: '15px' },
       });
-
-
     };
-
+    // @ts-ignore
     const config = {
-      data: [JSON.parse(courseData), JSON.parse(courseData)],
+      data: JSON.parse(courseData),
       xField: 'time',
-      yField: ['attendRate', 'upRate'],
+      yField: 'rate',
+      seriesField: 'name',
       autoFit: true,
-      // height: 200,
-      width:400,
       limitInPlot: true,
-      tooltip: {
-        showTitle: false,
-        formatter: (datum: any) => handleTooltip(datum),
-      },
-
-      geometryOptions: [
-
-        {
-          geometry: 'line',
-          seriesField: 'attendName',
-          lineStyle: {
-            lineWidth: 3,
-            lineDash: [5, 5],
-          },
-          tooltip: {
-            formatter: (datum: any) => {
-              return {
-                name: datum.attendName,
-                value: `${datum.attendRate}%`,
-              };
-            },
-          },
-          smooth: true,
-          // point: {},
-        },
-        {
-          geometry: 'line',
-          seriesField: 'upName',
-          // point: {},
-          smooth: true,
-          tooltip: {
-            formatter: (datum: any) => {
-              return {
-                name: datum.upName,
-                value: `${datum.upRate}%`,
-              };
-            },
-          },
-        },
-      ],
-      yAxis: [
-        {
-          label: {
-            formatter: (value: any) => {
-              return `${value}%`;
-            },
-          },
-          min: 0,
-          max: 100,
-          line: {
-            style: {
-              stroke: '#fcdada',
-              lineWidth: 2,
-            },
-          },
-        },
-        {
-          visible: false,
-          min: 0,
-          max: 100
-        }
-      ],
-      xAxis: {
+      smooth: true,
+      yAxis: {
+        min: 0,
+        max: 100,
         label: {
-          formatter: (value: number) => `${value}`,
+          formatter: (v: any) => `${v}%`,
+        },
+        line: {
+          style: {
+            stroke: '#000000',
+            lineWidth: 3,
+          },
+        },
+      },
+      nice: true,
+      color: ({ name }: { name: string }) => {
+        return name === '抬头率' ? '#F4664A' : name === '出勤率' ? '#30BF78' : '#FAAD14';
+      },
+      lineStyle: ({ name }: { name: string }) => {
+        if (name === '前排率') {
+          return {
+            lineDash: [4, 4],
+            opacity: 75,
+          };
+        } else if (name === '出勤率') {
+          return {
+            lineDash: [10, 10],
+            opacity: 10,
+          };
+        }
+        return {
+          opacity: 50,
+        };
+      },
+      xAxis: {
+        line: {
+          style: {
+            stroke: '#000000',
+            lineWidth: 3,
+          },
+        },
+        label: {
+          formatter: (value: number) => value,
         },
         min: 0,
         // max: 50,
@@ -283,15 +229,13 @@ const CourseDetailCard: React.FC = (course) => {
           text: '课程第N讲',
         },
       },
-
     };
     // @ts-ignore
-    return <DualAxes {...config} onReady={onReadyLine}/>;
+    return <Line {...config} onReady={onReadyLine} />;
   };
   return (
     <RcResizeObserver.Collection
       key="resize-observer"
-
       // @ts-ignore
       onResize={(offset) => {
         setResponsive(offset.width < 596);
@@ -299,7 +243,9 @@ const CourseDetailCard: React.FC = (course) => {
     >
       <ProCard
         title="数据概览"
-        extra={`${new Date().getFullYear()}年${new Date().getMonth() + 1}月${new Date().getDate()}日 星期${'日一二三四五六'[new Date().getDay()]} `}
+        extra={`${new Date().getFullYear()}年${
+          new Date().getMonth() + 1
+        }月${new Date().getDate()}日 星期${'日一二三四五六'[new Date().getDay()]} `}
         split={responsive ? 'horizontal' : 'vertical'}
         headerBordered
         bordered
@@ -307,25 +253,32 @@ const CourseDetailCard: React.FC = (course) => {
         <ProCard split="vertical">
           <ProCard split="horizontal">
             <ProCard split="vertical">
-
               <StatisticCard
                 statistic={{
                   title: '最近课堂抬头率',
                   value: latestUpRate.toFixed(2) + '%',
-                  description: <Statistic title="较本月平均"
-                                          value={Math.abs(latestUpRate - averageUpRateThisMonth).toFixed(2)}
-                                          suffix={'%'}
-                                          trend={latestUpRate > averageUpRateThisMonth ? "up" : "down"}/>,
+                  description: (
+                    <Statistic
+                      title="较本月平均"
+                      value={Math.abs(latestUpRate - averageUpRateThisMonth).toFixed(2)}
+                      suffix={'%'}
+                      trend={latestUpRate > averageUpRateThisMonth ? 'up' : 'down'}
+                    />
+                  ),
                 }}
               />
               <StatisticCard
                 statistic={{
                   title: '本月平均抬头率',
                   value: averageUpRateThisMonth.toFixed(2) + '%',
-                  description: <Statistic title="较上月"
-                                          value={Math.abs(averageUpRateLastMonth - averageUpRateThisMonth).toFixed(2)}
-                                          suffix={'%'}
-                                          trend={averageUpRateLastMonth < averageUpRateThisMonth ? "up" : "down"}/>,
+                  description: (
+                    <Statistic
+                      title="较上月"
+                      value={Math.abs(averageUpRateLastMonth - averageUpRateThisMonth).toFixed(2)}
+                      suffix={'%'}
+                      trend={averageUpRateLastMonth < averageUpRateThisMonth ? 'up' : 'down'}
+                    />
+                  ),
                 }}
               />
             </ProCard>
@@ -334,40 +287,43 @@ const CourseDetailCard: React.FC = (course) => {
                 statistic={{
                   title: '最近课堂出勤率',
                   value: latestAttendRate.toFixed(2) + '%',
-                  description: <Statistic title="较本月平均"
-                                          value={Math.abs(latestAttendRate - averageAttendRateThisMonth).toFixed(2)}
-                                          suffix={'%'}
-                                          trend={latestAttendRate > averageAttendRateThisMonth ? "up" : "down"}/>,
+                  description: (
+                    <Statistic
+                      title="较本月平均"
+                      value={Math.abs(latestAttendRate - averageAttendRateThisMonth).toFixed(2)}
+                      suffix={'%'}
+                      trend={latestAttendRate > averageAttendRateThisMonth ? 'up' : 'down'}
+                    />
+                  ),
                 }}
               />
               <StatisticCard
                 statistic={{
                   title: '本月平均出勤率',
                   value: averageAttendRateThisMonth.toFixed(2) + '%',
-                  description: <Statistic title="较上月"
-                                          value={Math.abs(averageAttendRateLastMonth - averageAttendRateThisMonth).toFixed(2)}
-                                          suffix={'%'}
-                                          trend={averageAttendRateLastMonth < averageAttendRateThisMonth ? "up" : "down"}/>,
+                  description: (
+                    <Statistic
+                      title="较上月"
+                      value={Math.abs(
+                        averageAttendRateLastMonth - averageAttendRateThisMonth,
+                      ).toFixed(2)}
+                      suffix={'%'}
+                      trend={
+                        averageAttendRateLastMonth < averageAttendRateThisMonth ? 'up' : 'down'
+                      }
+                    />
+                  ),
                 }}
               />
             </ProCard>
-
           </ProCard>
-          <StatisticCard
-            title="课程平均指标"
-            chart={
-              <CourseRadar averageData={averageData}/>
-            }
-          />
+          <StatisticCard title="课程平均指标" chart={<CourseRadar averageData={averageData} />} />
         </ProCard>
       </ProCard>
       <StatisticCard
         title="课程每讲平均指标"
-        chart={
-          <RateDualAxes courseData={courseData}/>
-        }
+        chart={<RateDualAxes courseData={courseData} />}
         tooltip="点击折线图可查看某一讲的详细数据"
-
       />
     </RcResizeObserver.Collection>
   );

@@ -1,7 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
 
-
 declare namespace API {
   type CurrentUser = {
     id: number;
@@ -39,7 +38,7 @@ declare namespace API {
     pages: number;
     size: number;
     records: T[];
-  }
+  };
 
   type RegisterResult = number;
   type UpdateUserResult = number;
@@ -55,21 +54,20 @@ declare namespace API {
     remark?: string;
     email?: string;
     phone?: string;
-    gender?: number
+    gender?: number;
   };
   type DeleteUserParam = number;
-
 
   type SearchUser = {
     username: string;
     userAccount: number;
-  }
+  };
 
   type SearchCourseParam = {
     courseName: string;
     courseNumber: string;
     teachers: string[];
-  }
+  };
   type Course = {
     id: number;
     courseNumber: string;
@@ -77,7 +75,7 @@ declare namespace API {
     teachingTime: string;
     college: string;
     phone: string;
-    teachers: string[]
+    teachers: string[];
     classroomId: number;
     chooseNum: number;
     startWeek: number;
@@ -90,7 +88,7 @@ declare namespace API {
     createUser: number;
     updateUser: number;
     remark: string;
-  }
+  };
 
   type ClassRoom = {
     id: number;
@@ -101,7 +99,7 @@ declare namespace API {
     roomStatus: number;
     seatRate: number;
     updateTime: Date;
-  }
+  };
 
   type SearchClassRoomParam = {
     roomName: string;
@@ -110,7 +108,13 @@ declare namespace API {
     roomStatus: number;
     sort: string;
     filter: string[];
-  }
+  };
+
+  type getSingleClassDetailParam = {
+    singleClassId: number;
+    courseId: number;
+  };
+
   type CourseDetailResult = {
     // id: number;
     courseId: number;
@@ -133,9 +137,13 @@ declare namespace API {
 
     courseData: string;
     averageData: string;
+  };
 
-  }
-
+  type SingleClassDetailResult = {
+    id: number;
+    courseId: number;
+    classData: string;
+  };
 
   type LoginParams = {
     userAccount?: string;
@@ -152,6 +160,4 @@ declare namespace API {
     /** 业务上的请求是否成功 */
     success?: boolean;
   };
-
-
 }
