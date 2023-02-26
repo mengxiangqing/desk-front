@@ -29,22 +29,6 @@ export default [
     icon: 'smile',
     component: './Welcome',
   },
-  // {
-  //   path: '/admin',
-  //   icon: 'crown',
-  //   access: 'canAdmin',
-  //   routes: [
-  //     {
-  //       path: '/admin/user-manage',
-  //       name: '用户管理页',
-  //       icon: 'smile',
-  //       component: './Admin/UserManage',
-  //     },
-  //     {
-  //       component: './404',
-  //     },
-  //   ],
-  // },
   {
     path: '/',
     redirect: '/welcome',

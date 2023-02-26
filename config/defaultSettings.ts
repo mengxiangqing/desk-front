@@ -1,4 +1,4 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-components';
+import {Settings as LayoutSettings} from '@ant-design/pro-components';
 
 const Settings: LayoutSettings & {
   pwa?: boolean;
@@ -15,7 +15,21 @@ const Settings: LayoutSettings & {
   title: '智能助理',
   pwa: false,
   logo: '/logo-left.png',
-  iconfontUrl: '',
+  iconfontUrl: '//at.alicdn.com/t/c/font_3917171_0in5qm9vlb26.js',
 };
+
+
+// {
+//   "navTheme": "light",
+//   "primaryColor": "#1890ff",
+//   "layout": "mix",
+//   "contentWidth": "Fluid",
+//   "fixedHeader": true,
+//   "fixSiderbar": true,
+//   "pwa": false,
+//   "logo": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+//   "headerHeight": 48,
+//   "splitMenus": true
+// }
 
 export default Settings;
