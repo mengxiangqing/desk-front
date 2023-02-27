@@ -56,6 +56,13 @@ declare namespace API {
     phone?: string;
     gender?: number;
   };
+  //TODO 更新课程请求参数
+  type UpdateCourseParams = {
+    remark?: string;
+    email?: string;
+    phone?: string;
+    teacher?: number;
+  };
   type DeleteUserParam = number;
 
   type SearchUser = {
