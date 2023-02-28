@@ -154,3 +154,15 @@ export async function deleteCourse(body: number) {
     data: body,
   });
 }
+/** 删除课程接口 POST /api/course/add */
+export async function addCourse(body: API.CourseAddParam) {
+  return request<API.BaseResponse<number>>('/api/course/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  });
+}
+
+

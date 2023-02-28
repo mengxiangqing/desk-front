@@ -79,14 +79,14 @@ export default ({course}: { course: API.Course }) => {
           <StatisticCard
             statistic={{
               title: '平均抬头率',
-              value: course.averageUpRate.toFixed(2),
+              value: course.averageUpRate?.toFixed(2),
               suffix: '%',
               // description: <Statistic title="占比" value="61.5%"/>,
             }}
             chart={
               <Progress
                 type="dashboard"
-                percent={Number(course.averageUpRate.toFixed(2))}
+                percent={Number(course.averageUpRate?.toFixed(2))}
                 format={(percent) =>
                   percent !== undefined && percent >= 70
                     ? `高`
@@ -105,14 +105,14 @@ export default ({course}: { course: API.Course }) => {
           <StatisticCard
             statistic={{
               title: '平均到课率',
-              value: course.averageAttendRate.toFixed(2),
+              value: course.averageAttendRate?.toFixed(2),
               suffix: '%',
               // description: <Statistic title="占比" value="38.5%"/>,
             }}
             chart={
               <Progress
                 type="dashboard"
-                percent={Number(course.averageAttendRate.toFixed(2))}
+                percent={Number(course.averageAttendRate?.toFixed(2))}
                 format={(percent) =>
                   percent !== undefined && percent >= 85
                     ? `高`
@@ -131,14 +131,14 @@ export default ({course}: { course: API.Course }) => {
           <StatisticCard
             statistic={{
               title: '平均前排率',
-              value: course.averageFrontRate.toFixed(2),
+              value: course.averageFrontRate?.toFixed(2),
               suffix: '%',
               // description: <Statistic title="占比" value="38.5%"/>,
             }}
             chart={
               <Progress
                 type="dashboard"
-                percent={Number(course.averageFrontRate.toFixed(2))}
+                percent={Number(course.averageFrontRate?.toFixed(2))}
                 format={(percent) =>
                   percent !== undefined && percent >= 30
                     ? `高`

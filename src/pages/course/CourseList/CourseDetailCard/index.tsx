@@ -101,7 +101,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
           // suffix: '%',
           min: 0,
           nice: true,
-          // formatter: (v: any) => Number(v).toFixed(2),
+          // formatter: (v: any) => Number(v)?.toFixed(2),
         },
       },
       xAxis: {
@@ -256,11 +256,11 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
               <StatisticCard
                 statistic={{
                   title: '最近课堂抬头率',
-                  value: latestUpRate.toFixed(2) + '%',
+                  value: latestUpRate?.toFixed(2) + '%',
                   description: (
                     <Statistic
                       title="较本月平均"
-                      value={Math.abs(latestUpRate - averageUpRateThisMonth).toFixed(2)}
+                      value={Math.abs(latestUpRate - averageUpRateThisMonth)?.toFixed(2)}
                       suffix={'%'}
                       trend={latestUpRate > averageUpRateThisMonth ? 'up' : 'down'}
                     />
@@ -274,7 +274,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
                   description: (
                     <Statistic
                       title="较上月"
-                      value={Math.abs(averageUpRateLastMonth - averageUpRateThisMonth).toFixed(2)}
+                      value={Math.abs(averageUpRateLastMonth - averageUpRateThisMonth)?.toFixed(2)}
                       suffix={'%'}
                       trend={averageUpRateLastMonth < averageUpRateThisMonth ? 'up' : 'down'}
                     />
@@ -286,11 +286,11 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
               <StatisticCard
                 statistic={{
                   title: '最近课堂出勤率',
-                  value: latestAttendRate.toFixed(2) + '%',
+                  value: latestAttendRate?.toFixed(2) + '%',
                   description: (
                     <Statistic
                       title="较本月平均"
-                      value={Math.abs(latestAttendRate - averageAttendRateThisMonth).toFixed(2)}
+                      value={Math.abs(latestAttendRate - averageAttendRateThisMonth)?.toFixed(2)}
                       suffix={'%'}
                       trend={latestAttendRate > averageAttendRateThisMonth ? 'up' : 'down'}
                     />
@@ -306,7 +306,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
                       title="较上月"
                       value={Math.abs(
                         averageAttendRateLastMonth - averageAttendRateThisMonth,
-                      ).toFixed(2)}
+                      )?.toFixed(2)}
                       suffix={'%'}
                       trend={
                         averageAttendRateLastMonth < averageAttendRateThisMonth ? 'up' : 'down'

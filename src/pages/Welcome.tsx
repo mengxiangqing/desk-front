@@ -1,13 +1,20 @@
 import {PageContainer} from '@ant-design/pro-components';
 import {Alert, Card} from 'antd';
 import React from 'react';
+import {getInitialState} from "@/app";
+
+const {currentUser} = await getInitialState();
 
 const Welcome: React.FC = () => {
+  console.log(currentUser);
+  // @ts-ignore
+  const username = currentUser.username;
+  console.log(username);
   return (
     <PageContainer>
       <Card>
         <Alert
-          message={'欢迎使用本平台'}
+          message={'欢迎使用本平台: '+username}
           type="success"
           showIcon
           banner

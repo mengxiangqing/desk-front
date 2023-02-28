@@ -169,4 +169,18 @@ declare namespace API {
     /** 业务上的请求是否成功 */
     success?: boolean;
   };
+
+
+  type CourseAddParam = {
+    courseName: string;
+    courseNumber: string
+    startWeek: number
+    endWeek: number
+    teacher: number;
+    college: string;
+    remark: string;
+    chooseNum: number;
+    teachingTime: string;
+    phone:string
+  }
 }

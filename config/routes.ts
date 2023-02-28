@@ -1,5 +1,3 @@
-
-
 export default [
   {
     path: '/user',
@@ -40,13 +38,30 @@ export default [
     component: './course/CourseList',
   },
   {
-    name: '管理用户',
-    icon: 'icon-guanliyuan_jiaoseguanli',
+    name: "系统管理",
     access: 'canAdmin',
-    path: '/admin/user-manage',
-    component: './Admin/UserManage',
-  },
+    icon: 'icon-guanliyuan_jiaoseguanli',
+    routes:
+      [
 
+        {
+          name: '用户管理',
+          icon: 'icon-guanliyuan_jiaoseguanli',
+          access: 'canAdmin',
+          path: '/admin/user-manage',
+          component: './Admin/UserManage',
+        },
+        {
+          name: '课程管理',
+          icon: 'icon-kecheng',
+          path: '/course/list',
+          component: './course/CourseList',
+        },
+      ]
+
+
+  }
+  ,
   {
     name: '查询教室',
     icon: 'icon-kongjiaoshichaxun-01',

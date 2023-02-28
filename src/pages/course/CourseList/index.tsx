@@ -1,12 +1,14 @@
-import { deleteCourse, searchCourses, updateUser } from '@/services/api';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import {deleteCourse, searchCourses, updateUser} from '@/services/api';
+import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Popconfirm } from 'antd';
-import React, { useRef, useState } from 'react';
+import {Button, Popconfirm} from 'antd';
+import React, {useRef, useState} from 'react';
 import access from '@/access';
-import { getInitialState } from '@/app';
+import {getInitialState} from '@/app';
 import ModalForm from '@/components/ModalForm';
 import TeacherModalForm from '@/pages/course/CourseList/TeacherModalForm';
+import {PlusOutlined} from "@ant-design/icons";
+import CourseAddModalForm from "@/pages/course/CourseList/CourseAddModalForm";
 
 const acc = access(await getInitialState());
 
@@ -21,6 +23,7 @@ export default () => {
     const showPopconfirm = () => {
       setOpen(true);
     };
+
 
     const handleOk = async () => {
       await deleteCourse(record.record.id);
@@ -41,7 +44,7 @@ export default () => {
         title="确认删除？"
         visible={open}
         onConfirm={handleOk}
-        okButtonProps={{ loading: confirmLoading }}
+        okButtonProps={{loading: confirmLoading}}
         onCancel={handleCancel}
       >
         <a onClick={showPopconfirm}>删除</a>
@@ -124,7 +127,7 @@ export default () => {
       render: (text, record, _, action) => {
         if (acc.canAdmin) {
           return [
-            <ModalForm key={'courseDetail'} record={record} />,
+            <ModalForm key={'courseDetail'} record={record}/>,
             <a
               key="editable"
               onClick={() => {
@@ -134,17 +137,17 @@ export default () => {
               {/*TODO 编辑课程的授课教师时，弹出选框选择教师*/}
               编辑
             </a>,
-            <DeleteConfirm key="delete" record={record} />,
+            <DeleteConfirm key="delete" record={record}/>,
           ];
         } else {
-          return <ModalForm key={'courseDetail'} record={record} />;
+          return <ModalForm key={'courseDetail'} record={record}/>;
         }
       },
     },
   ];
-
   return (
     <ProTable<API.Course>
+      revalidateOnFocus
       columns={columns}
       actionRef={actionRef} //Table action 的引用，便于自定义触发
       cardBordered
@@ -186,7 +189,10 @@ export default () => {
       }}
 
       // dateFormatter="string"
-      // headerTitle="用户列表"
+      headerTitle="课程列表"
+      toolBarRender={() => [
+        <CourseAddModalForm  />
+      ]}
     />
   );
 };
