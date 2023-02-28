@@ -6,15 +6,15 @@ import {getInitialState} from "@/app";
 const {currentUser} = await getInitialState();
 
 const Welcome: React.FC = () => {
-  console.log(currentUser);
+  // console.log(currentUser);
   // @ts-ignore
   const username = currentUser.username;
-  console.log(username);
+  // console.log(username);
   return (
     <PageContainer>
       <Card>
         <Alert
-          message={'欢迎用户: '+username}
+          message={'欢迎用户: ' + username}
           type="success"
           showIcon
           banner

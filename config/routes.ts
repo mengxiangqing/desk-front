@@ -36,6 +36,13 @@ export default [
     ]
   },
   {
+    path: '/teacher',
+    name: '我的课程',
+    access: 'teacher',
+    icon: 'icon-kecheng',
+    component: './course/CourseList'
+  },
+  {
     path: '/welcome',
     icon: 'smile',
     component: './Welcome',
@@ -44,12 +51,7 @@ export default [
     path: '/',
     redirect: '/welcome',
   },
-  {
-    name: '查询课程',
-    icon: 'icon-kecheng',
-    path: '/course/list',
-    component: './course/CourseList',
-  },
+
   {
     name: "系统管理",
     access: 'canAdmin',
@@ -68,6 +70,11 @@ export default [
           path: '/admin/course-manage',
           component: './course/CourseList',
         },
+        {
+          name: '教室管理',
+          path: '/admin/room-manage',
+          component: './Room/RoomList',
+        }
       ]
   },
   {
@@ -79,16 +86,41 @@ export default [
   },
   {
     name: '查询教室',
+    access: 'student',
     icon: 'icon-kongjiaoshichaxun-01',
     path: '/room/list',
     component: './Room/RoomList',
   },
   {
     name: '查询教师',
+    access: 'student',
     icon: 'team',
     path: '/teacher/list',
     component: './Teacher/TeacherList',
   },
+  {
+    name: '查询课程',
+    icon: 'icon-kecheng',
+    access: 'student',
+    path: '/course/list',
+    component: './course/CourseList',
+  },
+  {
+    name: '教师督导',
+    access: 'monitor',
+    icon: 'team',
+    path: '/teacher/list',
+    component: './Teacher/TeacherList',
+  },
+  {
+    name: '课程督导',
+    icon: 'icon-kecheng',
+    access: 'monitor',
+    path: '/course/list',
+    component: './course/CourseList',
+  },
+
+
   {
     component: './404',
   },

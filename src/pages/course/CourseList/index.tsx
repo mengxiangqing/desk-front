@@ -138,8 +138,7 @@ export default () => {
             </a>,
             <DeleteConfirm key="delete" record={record}/>,
           ];
-        }
-        else if (acc.student) {
+        } else if (acc.student) {
           return [
             <ModalForm key={'courseDetail'} record={record}/>,
             <a key="selectCourse" onClick={async () => {
@@ -153,6 +152,7 @@ export default () => {
       },
     },
   ];
+  // @ts-ignore
   return (
     <ProTable<API.Course>
       revalidateOnFocus
@@ -199,9 +199,15 @@ export default () => {
 
       // dateFormatter="string"
       headerTitle="课程列表"
-      toolBarRender={() => [
-        <CourseAddModalForm key={"addCourseModal"}/>
-      ]}
+      //@ts-ignore
+      toolBarRender={() => {
+        if (acc.canAdmin) return [
+          <CourseAddModalForm key={"addCourseModal"}/>
+        ]
+        else {
+          return <a/>
+        }
+      }}
     />
   );
 };
