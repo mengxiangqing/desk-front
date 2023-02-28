@@ -19,6 +19,7 @@ export default () => {
   const [form] = Form.useForm<{}>();
 
 
+
   return (
     <ModalForm<{
       chooseNum: number,
@@ -38,6 +39,7 @@ export default () => {
           添加课程
         </Button>
       }
+      // @ts-ignore
       form={form}
       autoFocusFirstInput
       modalProps={{

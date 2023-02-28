@@ -12,15 +12,28 @@ export default [
         component: './user/Register',
       },
       {
+        component: './404',
+      },
+
+    ],
+  },
+
+
+  {
+    icon: 'icon-yonghu',
+    name: '用户中心',
+    path: '/account',
+    routes: [
+      {
         name: '个人设置',
         icon: 'smile',
-        path: '/user/settings',
+        path: '/account/settings',
         component: './user/AccountSettings',
       },
       {
         component: './404',
       },
-    ],
+    ]
   },
   {
     path: '/welcome',
@@ -41,27 +54,29 @@ export default [
     name: "系统管理",
     access: 'canAdmin',
     icon: 'icon-guanliyuan_jiaoseguanli',
+    path: '/admin',
     routes:
       [
 
         {
           name: '用户管理',
-          icon: 'icon-guanliyuan_jiaoseguanli',
-          access: 'canAdmin',
           path: '/admin/user-manage',
           component: './Admin/UserManage',
         },
         {
           name: '课程管理',
-          icon: 'icon-kecheng',
-          path: '/course/list',
+          path: '/admin/course-manage',
           component: './course/CourseList',
         },
       ]
-
-
-  }
-  ,
+  },
+  {
+    name: '已选课程',
+    access: 'student',
+    icon: 'icon-kecheng',
+    path: '/course/selected',
+    component: './course/SelectList',
+  },
   {
     name: '查询教室',
     icon: 'icon-kongjiaoshichaxun-01',

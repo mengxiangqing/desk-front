@@ -14,7 +14,7 @@ const Welcome: React.FC = () => {
     <PageContainer>
       <Card>
         <Alert
-          message={'欢迎使用本平台: '+username}
+          message={'欢迎用户: '+username}
           type="success"
           showIcon
           banner

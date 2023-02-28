@@ -23,7 +23,9 @@ export async function searchUsers(body: API.SearchUser, options?: { [key: string
     ...(options || {}),
   });
 
-}/** 搜索用户接口 POST /api/user/teacher */
+}
+
+/** 搜索用户接口 POST /api/user/teacher */
 export async function searchTeachers(body: API.SearchUser, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.CurrentUser[]>>('/api/user/teacher', {
     method: 'POST',
@@ -102,6 +104,18 @@ export async function searchCourses(body: API.SearchCourseParam, options?: { [ke
   });
 }
 
+/** 获取用户已选课程列表 POST /api/course/selected */
+export async function selectedCourses(body: API.SearchCourseParam, options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.PageData<API.Course[]>>>('/api/course/selected', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 获取课程详细信息接口 POST /api/course/detail */
 export async function getCourseDetail(body: number, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.CourseDetailResult>>('/api/course/detail', {
@@ -144,6 +158,22 @@ export async function searchClassRooms(
   });
 }
 
+/** 设置教室状态接口 POST /api/room/set */
+export async function setRoomState(
+  body: API.RoomState,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponse<number>>('/api/room/set', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+
 /** 删除课程接口 POST /api/course/delete */
 export async function deleteCourse(body: number) {
   return request<API.BaseResponse<number>>('/api/course/delete', {
@@ -154,7 +184,30 @@ export async function deleteCourse(body: number) {
     data: body,
   });
 }
-/** 删除课程接口 POST /api/course/add */
+
+/** 选择课程接口 POST /api/course/select */
+export async function selectCourse(body: number) {
+  return request<API.BaseResponse<number>>('/api/course/select', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  });
+}
+
+/** 取消选择课程接口 POST /api/course/cancel */
+export async function cancelSelectCourse(body: number) {
+  return request<API.BaseResponse<number>>('/api/course/cancel', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+  });
+}
+
+/** 添加课程接口 POST /api/course/add */
 export async function addCourse(body: API.CourseAddParam) {
   return request<API.BaseResponse<number>>('/api/course/add', {
     method: 'POST',

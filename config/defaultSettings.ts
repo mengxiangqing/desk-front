@@ -15,7 +15,7 @@ const Settings: LayoutSettings & {
   title: '智能助理',
   pwa: false,
   logo: '/logo-left.png',
-  iconfontUrl: '//at.alicdn.com/t/c/font_3917171_0in5qm9vlb26.js',
+  iconfontUrl: '//at.alicdn.com/t/c/font_3917171_gcvvz16f1vt.js',
 };
 
 

@@ -259,7 +259,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
                   value: latestUpRate?.toFixed(2) + '%',
                   description: (
                     <Statistic
-                      title="较本月平均"
+                      title="较月平均"
                       value={Math.abs(latestUpRate - averageUpRateThisMonth)?.toFixed(2)}
                       suffix={'%'}
                       trend={latestUpRate > averageUpRateThisMonth ? 'up' : 'down'}
@@ -270,7 +270,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
               <StatisticCard
                 statistic={{
                   title: '本月平均抬头率',
-                  value: averageUpRateThisMonth.toFixed(2) + '%',
+                  value: averageUpRateThisMonth?.toFixed(2) + '%',
                   description: (
                     <Statistic
                       title="较上月"
@@ -289,7 +289,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
                   value: latestAttendRate?.toFixed(2) + '%',
                   description: (
                     <Statistic
-                      title="较本月平均"
+                      title="较月平均"
                       value={Math.abs(latestAttendRate - averageAttendRateThisMonth)?.toFixed(2)}
                       suffix={'%'}
                       trend={latestAttendRate > averageAttendRateThisMonth ? 'up' : 'down'}
@@ -300,7 +300,7 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
               <StatisticCard
                 statistic={{
                   title: '本月平均出勤率',
-                  value: averageAttendRateThisMonth.toFixed(2) + '%',
+                  value: averageAttendRateThisMonth?.toFixed(2) + '%',
                   description: (
                     <Statistic
                       title="较上月"

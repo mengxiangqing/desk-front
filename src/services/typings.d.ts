@@ -110,6 +110,12 @@ declare namespace API {
     updateTime: Date;
   };
 
+
+  type RoomState = {
+    id: number
+    roomStatus: number
+  }
+
   type SearchClassRoomParam = {
     roomName: string;
     seatRate: number;
@@ -181,6 +187,6 @@ declare namespace API {
     remark: string;
     chooseNum: number;
     teachingTime: string;
-    phone:string
+    phone: string
   }
 }

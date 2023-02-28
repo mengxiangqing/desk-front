@@ -94,11 +94,13 @@ const ListSearchProjects: FC = () => {
         renderItem={(item) => (
           <List.Item>
             <RoomCard
+              id={item.id}
               roomName={item.roomName}
               seatRate={item.seatRate}
               human={item.humans}
               capacity={item.capacity}
               updateTime={item.updateTime}
+              roomState={item.roomStatus}
             />
           </List.Item>
         )}

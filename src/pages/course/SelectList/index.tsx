@@ -1,55 +1,14 @@
-import {deleteCourse, searchCourses, selectCourse, updateUser} from '@/services/api';
+import {cancelSelectCourse, selectedCourses} from '@/services/api';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {message, Popconfirm} from 'antd';
-import React, {useRef, useState} from 'react';
-import access from '@/access';
-import {getInitialState} from '@/app';
+import {useRef} from 'react';
 import ModalForm from '@/components/ModalForm';
 import TeacherModalForm from '@/pages/course/CourseList/TeacherModalForm';
-import CourseAddModalForm from "@/pages/course/CourseList/CourseAddModalForm";
+import {message} from "antd";
 
-const acc = access(await getInitialState());
 
 export default () => {
   const actionRef = useRef<ActionType>();
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
-
-  const DeleteConfirm = (record: { record: { id: API.DeleteUserParam } }) => {
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-
-    const showPopConfirm = () => {
-      setOpen(true);
-    };
-
-
-    const handleOk = async () => {
-      await deleteCourse(record.record.id);
-
-      setConfirmLoading(true);
-      setTimeout(() => {
-        setOpen(false);
-        setConfirmLoading(false);
-      }, 2000);
-    };
-
-    const handleCancel = () => {
-      setOpen(false);
-    };
-
-    return (
-      <Popconfirm
-        title="确认删除？"
-        visible={open}
-        onConfirm={handleOk}
-        okButtonProps={{loading: confirmLoading}}
-        onCancel={handleCancel}
-      >
-        <a onClick={showPopConfirm}>删除</a>
-      </Popconfirm>
-    );
-  };
 
   const columns: ProColumns<API.Course>[] = [
     {
@@ -123,33 +82,15 @@ export default () => {
       valueType: 'option',
       hideInSearch: true,
       key: 'option',
-      render: (text, record, _, action) => {
-        if (acc.canAdmin) {
-          return [
-            <ModalForm key={'courseDetail'} record={record}/>,
-            <a
-              key="editable"
-              onClick={() => {
-                action?.startEditable?.(record.id);
-              }}
-            >
-              {/*TODO 编辑课程的授课教师时，弹出选框选择教师*/}
-              编辑
-            </a>,
-            <DeleteConfirm key="delete" record={record}/>,
-          ];
-        }
-        else if (acc.student) {
-          return [
-            <ModalForm key={'courseDetail'} record={record}/>,
-            <a key="selectCourse" onClick={async () => {
-              await selectCourse(record.id);
-              message.success('选课成功');
-            }}>选课</a>
-          ]
-        } else {
-          return <ModalForm key={'courseDetail'} record={record}/>;
-        }
+      render: (text, record) => {
+        return [
+          <ModalForm key={'courseDetail'} record={record}/>,
+          <a key="cancelSelectCourse" onClick={async () => {
+            await cancelSelectCourse(record.id);
+            message.success('删除记录成功');
+          }}>取消</a>
+        ];
+
       },
     },
   ];
@@ -167,7 +108,7 @@ export default () => {
         filter,
       ) => {
         console.log(params, sort, filter);
-        const userList = await searchCourses({
+        const userList = await selectedCourses({
           ...params,
           sort,
           filter,
@@ -175,18 +116,6 @@ export default () => {
         return {
           data: userList,
         };
-      }}
-      editable={{
-        type: 'multiple',
-        editableKeys,
-        onSave: async (rowKey, data) => {
-          // console.log(rowKey, data, row);
-          // TODO 更新课程
-          await updateUser(data);
-
-          // await waitTime(2000);
-        },
-        onChange: setEditableRowKeys,
       }}
       columnsState={{
         persistenceKey: 'course-search',
@@ -196,12 +125,8 @@ export default () => {
       search={{
         labelWidth: 'auto',
       }}
-
       // dateFormatter="string"
       headerTitle="课程列表"
-      toolBarRender={() => [
-        <CourseAddModalForm key={"addCourseModal"}/>
-      ]}
     />
   );
 };
