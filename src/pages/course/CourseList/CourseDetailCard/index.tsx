@@ -1,8 +1,8 @@
 import { ProCard, StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import { useEffect, useState } from 'react';
-import { Radar } from '@ant-design/charts';
-import { Line } from '@ant-design/plots';
+import { Radar, Line } from '@ant-design/charts';
+// import {Line} from '@ant-design/plots';
 
 import { Modal } from 'antd';
 import { getCourseDetail, getSingleClassDetail } from '@/services/api';
@@ -62,21 +62,39 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
   // @ts-ignore
   const averageData = courseDetail.averageData;
 
+  // 点击折线图后的细节折线图
   const DemoDualAxes = ({ classData }: { classData: any }) => {
     if (!classData) {
       return <div>暂无课程详细数据，等待课程更新中……</div>;
     }
 
+    const formattedData = JSON.parse(classData).map(
+      (item: { time: any; rate: number; name: any }) => {
+        return {
+          time: item.time,
+          rate: Number(item.rate.toFixed(2)),
+          name: item.name,
+        };
+      },
+    );
+
     const config = {
-      data: JSON.parse(classData),
+      data: formattedData,
       xField: 'time',
       yField: 'rate',
+      // isStack: false,
+      smooth: true,
       seriesField: 'name',
       yAxis: {
         min: 0,
         max: 100,
         label: {
           formatter: (v: any) => `${v}%`,
+        },
+      },
+      xAxis: {
+        label: {
+          formatter: (v: any) => `${v}min`,
         },
       },
       color: ['#1979C9', '#D62A0D', '#FAA219'],
@@ -171,9 +189,19 @@ const CourseDetailCard: ({ course }: { course: any }) => JSX.Element = ({
         style: { marginRight: '15px' },
       });
     };
+
+    const formattedCourseData = JSON.parse(courseData).map(
+      (item: { time: any; rate: number; name: any }) => {
+        return {
+          time: item.time,
+          rate: Number(item.rate.toFixed(2)),
+          name: item.name,
+        };
+      },
+    );
     // @ts-ignore
     const config = {
-      data: JSON.parse(courseData),
+      data: formattedCourseData,
       xField: 'time',
       yField: 'rate',
       seriesField: 'name',

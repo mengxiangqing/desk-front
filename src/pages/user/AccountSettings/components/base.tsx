@@ -32,9 +32,9 @@ const BaseView: React.FC = () => {
       // if (currentUser.avatar) {
       //   return currentUser.avatar;
       // }
-      return 'https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/506/image-20230115223144435.png';
+      return '/logo.svg';
     }
-    return 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
+    return '/logo.svg';
   };
 
   const handleFinish = async () => {

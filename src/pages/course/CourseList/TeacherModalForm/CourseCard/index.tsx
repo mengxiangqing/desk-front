@@ -1,25 +1,26 @@
-import {List} from 'antd';
-import {useEffect, useState} from 'react';
-import {searchCourses} from "@/services/api";
-import CourseMiniCard from "@/pages/course/CourseList/TeacherModalForm/CourseMiniCard";
+import { List } from 'antd';
+import { useEffect, useState } from 'react';
+import { searchCourses } from '@/services/api';
+import CourseMiniCard from '@/pages/course/CourseList/TeacherModalForm/CourseMiniCard';
 
-
-export default ({teacherId}: { teacherId: number }) => {
-
+export default ({ teacherId }: { teacherId: number }) => {
   // console.log(teacherId);
   // 存放列表项
   const [list, setList] = useState<API.Course[]>([]);
-// 数据加载时显不显示  加载图标
+  // 数据加载时显不显示  加载图标
   const [loading, setLoading] = useState(false);
 
   // 初始化参数列表，setParams用来设置参数
   const [params] = useState<API.SearchCourseParam>({
-    courseName: "", courseNumber: "", teacher: teacherId
+    courseName: '',
+    courseNumber: '',
+    teacher: teacherId,
   });
 
   const handleSearch = async () => {
     setLoading(true);
     try {
+      //TODO 教室查看自己的课程列表，目前有bug
       const data = await searchCourses({
         ...params,
       } as API.SearchCourseParam);
@@ -37,7 +38,6 @@ export default ({teacherId}: { teacherId: number }) => {
   }, [teacherId]); //第二个参数为空 表示只加载时执行一次
   const cardList = list && (
     <>
-
       <List<API.Course>
         rowKey="id"
         loading={loading}
@@ -46,18 +46,12 @@ export default ({teacherId}: { teacherId: number }) => {
         dataSource={list}
         renderItem={(item) => (
           <List.Item>
-            <CourseMiniCard
-              course ={item}
-            />
+            <CourseMiniCard course={item} />
           </List.Item>
         )}
       />
-
     </>
   );
 
-  return (
-    <div>{cardList}</div>
-
-  );
+  return <div>{cardList}</div>;
 };

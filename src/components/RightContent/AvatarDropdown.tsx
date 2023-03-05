@@ -1,10 +1,10 @@
-import {outLogin} from '@/services/api';
-import {LogoutOutlined, SettingOutlined} from '@ant-design/icons';
-import {Avatar, Menu, Spin} from 'antd';
-import type {ItemType} from 'antd/lib/menu/hooks/useItems';
-import type {MenuInfo} from 'rc-menu/lib/interface';
-import React, {useCallback} from 'react';
-import {history, useModel} from 'umi';
+import { outLogin } from '@/services/api';
+import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { Avatar, Menu, Spin } from 'antd';
+import type { ItemType } from 'antd/lib/menu/hooks/useItems';
+import type { MenuInfo } from 'rc-menu/lib/interface';
+import React, { useCallback } from 'react';
+import { history, useModel } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
@@ -31,16 +31,16 @@ const loginOut = async () => {
   // }
 };
 
-const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
-  const {initialState, setInitialState} = useModel('@@initialState');
+const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
+  const { initialState, setInitialState } = useModel('@@initialState');
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
-      const {key} = event;
+      const { key } = event;
       if (key === 'logout') {
-        history.push('/user/login')
+        history.push('/user/login');
         // 如果点的是退出登录，就清空存储的当前用户状态，并向后端发请求
-        setInitialState((s) => ({...s, currentUser: undefined}));
+        setInitialState((s) => ({ ...s, currentUser: undefined }));
         loginOut();
         return;
       }
@@ -65,7 +65,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
     return loading;
   }
 
-  const {currentUser} = initialState;
+  const { currentUser } = initialState;
 
   if (!currentUser || !currentUser.username) {
     return loading;
@@ -79,7 +79,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
     // },
     {
       key: 'settings',
-      icon: <SettingOutlined/>,
+      icon: <SettingOutlined />,
       label: '个人设置',
     },
     {
@@ -87,24 +87,19 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({menu}) => {
     },
     {
       key: 'logout',
-      icon: <LogoutOutlined/>,
+      icon: <LogoutOutlined />,
       label: '退出登录',
     },
   ];
 
   const menuHeaderDropdown = (
-    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick} items={menuItems}/>
+    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick} items={menuItems} />
   );
 
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar
-          size="small"
-          className={styles.avatar}
-          src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/506/image-20230115223144435.png"
-          alt="avatar"
-        />
+        <Avatar size="small" className={styles.avatar} src="/logo.svg" alt="avatar" />
         <span className={`${styles.name} anticon`}>{currentUser.username}</span>
       </span>
     </HeaderDropdown>
